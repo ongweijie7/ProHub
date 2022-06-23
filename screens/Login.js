@@ -8,7 +8,6 @@ import firebaseApp from '../firebase.config';
 firebaseApp;
 
 const Login = ({navigation}) => {
-    //Firebase authenticator
     const auth  = getAuth();
     const [emailAddress, setEmailAddress] = useState("");
     const [password, setPassword] = useState("");
@@ -16,7 +15,7 @@ const Login = ({navigation}) => {
     const [signingIn, setSigningIn] = useState(true);
     const [description, setDescription] = useState("Login");
     
-
+    {/*Validates whether email and password is valid*/}
     const validateFields = (email, password) => {
         const isValid = {
             email: validator.isEmail(email),
@@ -64,7 +63,6 @@ const Login = ({navigation}) => {
     const signUp = () => {
         
         let valid = true;
-        //logic to validate that the account is ok!
         const isValid = validateFields(
             emailAddress, 
             password
@@ -139,8 +137,6 @@ const Login = ({navigation}) => {
             : <Text></Text>}
             </View>
             
-
-
         </KeyboardAvoidingView>
     )
 }

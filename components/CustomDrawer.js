@@ -14,7 +14,7 @@ firebaseApp;
 const CustomDrawer = (props) => {
 
     const auth = getAuth();
-    //to be completed as navigation is not passed down here.
+    
     {/*signOut function*/}
     const logOut = () => {
         signOut(auth).then(() => {
