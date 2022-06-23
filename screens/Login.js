@@ -12,18 +12,20 @@ const Login = ({navigation}) => {
     const auth  = getAuth();
     const [emailAddress, setEmailAddress] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [signingIn, setSigningIn] = useState(true);
     const [description, setDescription] = useState("Login");
+    
 
     const validateFields = (email, password) => {
         const isValid = {
             email: validator.isEmail(email),
             password: validator.isStrongPassword(password, {
                 minLength: 8,
-                minLowercase: 1,
-                minUppercase: 1,
-                minNumbers: 1,
-                minSymbols: 1,
+                minLowercase: 0,
+                minUppercase: 0,
+                minNumbers: 0,
+                minSymbols: 0,
             }),
         };
     
@@ -60,23 +62,37 @@ const Login = ({navigation}) => {
 
     {/*Confirmation Button to register*/}
     const signUp = () => {
-        console.log(emailAddress)
-
+        
+        let valid = true;
         //logic to validate that the account is ok!
         const isValid = validateFields(
-            emailField.text, 
-            passwordField.text
+            emailAddress, 
+            password
         );
 
-        createUserWithEmailAndPassword(auth, emailAddress, password).then(
-            () => {
-                alert("Welcome!!");
-                global.username = emailAddress;
-                navigation.replace('Main');
-        })
-        .catch((error) => {
-            alert("hi that was an incorrect email");
-        });
+        if (!isValid.password && !isValid.email) {
+            alert("Please enter a valid email and your password must be at least 8 long w/numbers, uppercase, lowercase, and symbol characters");
+        } else if (!isValid.password) {
+            alert("Password must be at least 8 long w/numbers, uppercase, lowercase, and symbol characters");
+        } else if (!isValid.email) {
+            alert("Please enter a valid email");
+        } else if (password != confirmPassword) {
+            valid = false;
+            alert("Sorry but your passwords do not match")
+        }
+        
+        if (isValid.password && isValid.email && valid) {
+            createUserWithEmailAndPassword(auth, emailAddress, password).then(
+                () => {
+                    alert("Welcome!!");
+                    global.username = emailAddress;
+                    navigation.replace('Main');
+            })
+            .catch((error) => {
+                alert("hi that was an incorrect email");
+            });
+        }
+        
     }
     
     
@@ -93,11 +109,23 @@ const Login = ({navigation}) => {
             /> 
             </View>
 
-            <View style={styles.loginWrapper}>
+            {!signingIn 
+            ? <View style={styles.loginWrapper}>
             <TextInput 
               placeholder={"Password"} 
               value={password} 
               onChangeText={setPassword}
+            /> 
+            </View>
+            : <View></View>
+            }
+            
+
+            <View style={styles.loginWrapper}>
+            <TextInput 
+              placeholder={signingIn ? "Password" : "Re-enter Password"} 
+              value={signingIn ? password : confirmPassword} 
+              onChangeText={setConfirmPassword}
             /> 
             <TouchableOpacity onPress={signingIn ? signIn : signUp} style={{flexDirection: 'row'}}>
                 <AntDesign name={"login"} size={24} color="black" />

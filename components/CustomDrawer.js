@@ -19,6 +19,7 @@ const CustomDrawer = (props) => {
     const logOut = () => {
         signOut(auth).then(() => {
             console.log("Logged out");
+            props.navigation.replace('onBoarding');
         }).catch((error) => {
             // An error happened.
             console.log("error in logging out");
