@@ -7,7 +7,25 @@ import { Ionicons } from '@expo/vector-icons';
 
 import global from '../global';
 
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import firebaseApp from '../firebase.config';
+
+firebaseApp;
 const CustomDrawer = (props) => {
+
+    const auth = getAuth();
+    //to be completed as navigation is not passed down here.
+    {/*signOut function*/}
+    const logOut = () => {
+        signOut(auth).then(() => {
+            console.log("Logged out");
+        }).catch((error) => {
+            // An error happened.
+            console.log("error in logging out");
+         });
+    }
+    
+
     return (
         <View style={{flex: 1}}>
             <DrawerContentScrollView 
@@ -36,7 +54,7 @@ const CustomDrawer = (props) => {
 
             {/*Sign Out button*/}
             <View style={{borderTopWidth:1, borderTopColor: '#ccc'}}>
-                <TouchableOpacity onPress={() => {}} style={{paddingVertical:15}}>
+                <TouchableOpacity onPress={logOut} style={{paddingVertical:15}}>
                     <View style={{flexDirection: 'row', marginLeft: 20}}>
                         <Ionicons name="exit-outline" size={24} color="black" />
                         <Text style={{
