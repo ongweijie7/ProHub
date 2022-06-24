@@ -113,6 +113,7 @@ const Login = ({navigation}) => {
               placeholder={"Password"} 
               value={password} 
               onChangeText={setPassword}
+              secureTextEntry={true}
             /> 
             </View>
             : <View></View>
@@ -123,7 +124,9 @@ const Login = ({navigation}) => {
             <TextInput 
               placeholder={signingIn ? "Password" : "Re-enter Password"} 
               value={signingIn ? password : confirmPassword} 
-              onChangeText={setConfirmPassword}
+              onChangeText={signingIn ? setPassword: setConfirmPassword}
+              secureTextEntry={true}
+              
             /> 
             <TouchableOpacity onPress={signingIn ? signIn : signUp} style={{flexDirection: 'row'}}>
                 <AntDesign name={"login"} size={24} color="black" />
