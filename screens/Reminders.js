@@ -34,6 +34,12 @@ const Reminders = () => {
       });
       setItems(newerItems);
   }
+  // Close modal 
+  const cancel = () => {
+    setTitle('');
+    setNotes('');
+    setModalOpen(false);
+  }
 
   // DatePicker
   const onChange = (event, selectedDate) => {
@@ -145,7 +151,7 @@ const Reminders = () => {
       <Modal visible={modalOpen} animationType='slide' presentationStyle='overFullScreen'>
           <View style={styles.modalContainer}>
                 <View style={styles.modalHeader}>
-                    <TouchableOpacity onPress={() => setModalOpen(false)} style={styles.modalClose}>
+                    <TouchableOpacity onPress={cancel} style={styles.modalClose}>
                         <Text style={{fontSize: 17, color: '#00a2ec'}}>Cancel</Text>
                     </TouchableOpacity>
                     <Text style={styles.modalTitle}>New Reminder</Text>
