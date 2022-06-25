@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
-import {View, TouchableOpacity, Text, StyleSheet, KeyboardAvoidingView, TextInput, Modal} from 'react-native';
+import {View, TouchableOpacity, Text, StyleSheet, KeyboardAvoidingView, TextInput, Modal, Alert, StatusBar} from 'react-native';
 import {Agenda} from 'react-native-calendars';
 
-import { MaterialIcons } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
+
+import Notification, {schedulePushNotification, getNext} from '../components/Notification';
+import * as Notifications from 'expo-notifications';
 
 const timeToString = (time) => {
   const date = new Date(time);
@@ -15,65 +16,124 @@ const timeToString = (time) => {
 
 const Reminders = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  // Reminder Object
   const [items, setItems] = useState({});
+  // Datetimepicker
   const [date, setDate] = useState(new Date());
-  const [show, setShow] = useState(false);
+  const [time, setTime] = useState(new Date());
+  const [showDate, setShowDate] = useState(false);
+  const [showTime, setShowTime] = useState(false);
   const [displayDate, setdisplayDate] = useState((date.getMonth() + 1) + '/' + date.getDate());
+  const [displayTime, setDisplayTime] = useState(time.getHours() + ':' + time.getMinutes());
+  // Reminder details
   const [title, setTitle] = useState();
   const [notes, setNotes] = useState();
 
-  const deletion = (time) => {
+  // Adds 0 to single digit time
+  const nicerTime = (ugly) => {
+    let currentHours = ugly.getHours();
+    currentHours = ("0" + currentHours).slice(-2);
+    let currentMin = ugly.getMinutes();
+    currentMin= ("0" + currentMin).slice(-2);
+    let period = "AM";
+    if (currentHours > 12) {
+      period = "PM";
+    }
+    return currentHours + ":" + currentMin + period
+  }
+
+  // Delete item in list 
+  // Fix in july: (Buggy because of the way calender refreshes -> item 2 deleted, new item 2 continues to show the old version)
+  const deletion = (item) => {
+    Notifications.cancelScheduledNotificationAsync(item.id);
     const newerItems = {};
       Object.keys(items).forEach((key) => {
-        if (key == time) {
-          // Deleting any item in a day deletes that day's list
-          newerItems[key] = [];
-        } else {
-          newerItems[key] = items[key];
+        newerItems[key] = items[key];
+        // Finding correct day and check if it has array as value
+        if (key == item.date && items[key] !== 'undefined') {
+          newerItems[key].forEach((reminder) => {
+            // FInding correct item
+            if (reminder.id === item.id) {
+              let toDel = newerItems[key].indexOf(reminder);
+              newerItems[key].splice(toDel, 1);
+            }  
+          });
         }
       });
       setItems(newerItems);
   }
+
   // Close modal 
   const cancel = () => {
     setTitle('');
     setNotes('');
     setModalOpen(false);
+    let today = new Date();
+    setdisplayDate((today.getMonth() + 1) + '/' + today.getDate());
+    setDisplayTime((today.getHours()) + ':' + today.getMinutes());
+    setDate(new Date());
+    setTime(new Date());
   }
 
   // DatePicker
-  const onChange = (event, selectedDate) => {
+  const onChangeDate = (event, selectedDate) => {
     const currentDate = selectedDate || date;
+    setShowDate(Platform.OS === 'ios');
     setDate(currentDate);
 
     let tempDate = new Date(currentDate);
     // Month starts with index 0 so need +1
     let fDate = (tempDate.getMonth() + 1) + '/' + tempDate.getDate();
     setdisplayDate(fDate)
-    setShow(false);
+    setShowDate(false);
   }
 
-  // Add item from Modal
-  const handleAddTask = () => {
-    let tempDate = new Date(date);
-    let fDate = tempDate.getFullYear() + '-0' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate();
-    let item = {name: title, details: notes, time: fDate};
-    
-    const newerItems = {};
-      Object.keys(items).forEach((key) => {
-        if (key == fDate) {
-          newerItems[key] = items[key];
-          newerItems[key].push(item);
-        } else {
-          newerItems[key] = items[key];
-        }
+  const onChangeTime = (event, selectedTime) => {
+    const currentTime = selectedTime || time;
+    setShowTime(Platform.OS === 'ios');
+    setTime(currentTime);
+
+    let tempTime = new Date(currentTime);
+    setDisplayTime(nicerTime(tempTime));
+    setShowTime(false);
+  }
+
+  // Add item from Modal (slow due to awaiting notifications)
+  async function handleAddTask() {
+    if (title === "" || notes === "") {
+      Alert.alert("Error", "Please fill up all fields", [
+        {text: "Ok"}
+      ]);
+    } else {
+      let tempDate = new Date(date);
+      let fDate = tempDate.getFullYear() + '-0' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate();
+      
+      // Schedules local notification
+      const id = await schedulePushNotification(date, time, title, notes);
+      let item = {name: title, details: notes, date: fDate, time: nicerTime(time), id: id};
+
+      const newerItems = {};
+        Object.keys(items).forEach((key) => {
+          if (key == fDate) {
+            newerItems[key] = items[key];
+            newerItems[key].push(item);
+          } else {
+            newerItems[key] = items[key];
+          }
       });
-    setItems(newerItems);
-    setModalOpen(false);
-    setTitle('');
-    setNotes('');
-    let today = new Date();
-    setdisplayDate((today.getMonth() + 1) + '/' + today.getDate());
+      
+      // Reset Modal to blank form
+      setItems(newerItems);
+      setModalOpen(false);
+      setTitle('');
+      setNotes('');
+      let today = new Date();
+      setdisplayDate((today.getMonth() + 1) + '/' + today.getDate());
+      setDisplayTime(nicerTime(today));
+      setDate(new Date());
+      setTime(new Date());
+    }
+    
   }
 
   const loadItems = (day) => {
@@ -97,6 +157,7 @@ const Reminders = () => {
   };
 
   const renderItem = (item) => {
+
     return (
     <View 
       style={{
@@ -106,9 +167,9 @@ const Reminders = () => {
         marginRight: 10,
         marginTop: 17
     }}>
-      <TouchableOpacity onPress={() => deletion(item.time)}>
+      <TouchableOpacity onPress={() => deletion(item)}>
       <View>
-        <Text style={{fontSize: 18, paddingLeft: 5}}>10:00AM - 10:45AM</Text>
+        <Text style={{fontSize: 18, paddingLeft: 5}}>{item.time}</Text>
         <Text style={{fontSize: 18, padding: 5}}>{item.name}</Text>
         <Text style={{fontSize: 14, paddingLeft: 5, color: '#99aab5'}}>{item.details}</Text>
       </View>
@@ -127,7 +188,8 @@ const Reminders = () => {
   }
 
   return (
-    <View style={{flex: 1, marginTop: 30}}>
+    // Temp fix to status bar
+    <View style={{flex: 1, marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0}}>
       <Agenda
         minDate={'2022-01-01'}
         items={items}
@@ -145,11 +207,16 @@ const Reminders = () => {
                     <Text style={styles.addText}>+</Text>
                 </View>
                 </TouchableOpacity>     
+                {/* Debugger
+                <TouchableOpacity onPress={async () => {await getNext()}} style={{margin: 30}}>
+                        <AntDesign name="clockcircleo" size={24} color="#b7b7b7" />
+                </TouchableOpacity> */}
             </View>          
       </KeyboardAvoidingView>
 
       <Modal visible={modalOpen} animationType='slide' presentationStyle='overFullScreen'>
           <View style={styles.modalContainer}>
+                      {/* Header Bar */}
                 <View style={styles.modalHeader}>
                     <TouchableOpacity onPress={cancel} style={styles.modalClose}>
                         <Text style={{fontSize: 17, color: '#00a2ec'}}>Cancel</Text>
@@ -179,21 +246,39 @@ const Reminders = () => {
                         <Text style={{fontSize: 18}}>Date: </Text>
                         <Text style={{fontSize: 18, left: -100}}>{displayDate}</Text>
                         
-                        <TouchableOpacity onPress={() => setShow(true)}>
+                        <TouchableOpacity onPress={() => setShowDate(true)}>
                             <AntDesign name="calendar" size={24} color="#b7b7b7" />
                         </TouchableOpacity>
+                    </View>
+
+                    <View style={{...styles.card, ...styles.date}}>
+                        <Text style={{fontSize: 18}}>Time: </Text>
+                        <Text style={{fontSize: 18, left: -85}}>{displayTime}</Text>
+                        <TouchableOpacity onPress={() => setShowTime(true)}>
+                            <AntDesign name="clockcircleo" size={24} color="#b7b7b7" />
+                        </TouchableOpacity>
                         
-                        {show && (
+                        {showDate && (
                             <DateTimePicker
                             testID='dateTimePicker'
                             value={date}
                             mode='date'
                             is24Hour={true}
                             display='default'
-                            onChange={onChange}
+                            onChange={onChangeDate}
+                        />)}
+                        {showTime && (
+                            <DateTimePicker
+                            testID='dateTimePicker'
+                            value={time}
+                            mode='time'
+                            is24Hour={true}
+                            display='default'
+                            onChange={onChangeTime}
                         />)}
 
                     </View>
+                    <Notification />
                 </View>
           </View>
       </Modal>
