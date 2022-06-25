@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { ScrollView, StyleSheet, Text, View ,KeyboardAvoidingView, TextInput, TouchableOpacity } from 'react-native';
+import { ScrollView, StyleSheet, Text, View ,KeyboardAvoidingView, TextInput, TouchableOpacity, StatusBar } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 
@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
   container: { 
     flex: 1,
     backgroundColor: "#E8EAED",
+    marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
   },
   header: {
     flexDirection: 'row', 
