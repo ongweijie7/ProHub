@@ -95,20 +95,22 @@ const Login = ({navigation}) => {
     
     
     return (
-        <View style={{flex: 1}}>
+        <KeyboardAvoidingView style={styles.container}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
             <StatusBar barStyle="light-content" />
             <ImageBackground
                 source={require('../assets/flowing-blue-abstract-texture.jpg')}
-                style={{padding: 75}}>
+                style={{padding: 75}}
+            >
                 <View style={{paddingTop: 0, alignSelf: "center"}}>
-                <MaterialCommunityIcons name="image-filter-center-focus-weak" size={40} color="white" />
+                    <MaterialCommunityIcons name="book-clock-outline" size={40} color="white" />
                 </View>
-                <Text style={{alignSelf: 'center', color: "white", fontSize: 24}}>Hocus Focus</Text>
+                <Text style={{alignSelf: 'center', color: "white", fontSize: 24, width: 240}}>ONGWEIJIE SMALL PP</Text>
             </ImageBackground>
 
-            <KeyboardAvoidingView style={styles.container}
-                behavior={Platform.OS === "ios" ? "padding" : "height"}>
 
+            <View style={{alignItems: 'center', padding: 10}}>
                 <Text style={{fontSize: 20, padding: 30, fontWeight: '800'}}>LOGIN</Text>
                 
                 <View style={styles.loginWrapper}> 
@@ -120,8 +122,8 @@ const Login = ({navigation}) => {
                     /> 
                 </View>
 
-                    {!signingIn 
-                    ? <View style={styles.loginWrapper}>
+                {!signingIn 
+                ? <View style={styles.loginWrapper}>
                     <TextInput 
                     placeholder={"Password"} 
                     value={password} 
@@ -133,7 +135,6 @@ const Login = ({navigation}) => {
                 : <View></View>
                 }
                 
-
                 <View style={styles.loginWrapper}>
                     <TextInput 
                         placeholder={signingIn ? "Password" : "Re-enter Password"} 
@@ -144,22 +145,22 @@ const Login = ({navigation}) => {
                     /> 
                 </View>
 
-
                 <TouchableOpacity onPress={signingIn ? signIn : signUp} style={styles.addWrapper}>
                         <Text style={{color: "white", fontSize: 20, padding: 3}}>{description}</Text>
                 </TouchableOpacity>
 
                 <View>
-                { signingIn 
-                ? <TouchableOpacity style={{flexDirection: 'row', marginTop: 15}} onPress={register}>
-                    <Text style={{color: "#b7b7b7"}}>Don't have an account?  </Text>
-                    <Text style={{textDecorationLine: 'underline', color: "#b7b7b7", fontWeight: "bold"}}>Register</Text>
-                </TouchableOpacity>
-                : <Text></Text>}
-                </View>
-            </KeyboardAvoidingView>
-        </View>
-        
+                    { signingIn 
+                    ? <TouchableOpacity style={{flexDirection: 'row', marginTop: 15}} onPress={register}>
+                        <Text style={{color: "#b7b7b7"}}>Don't have an account?  </Text>
+                        <Text style={{textDecorationLine: 'underline', color: "#b7b7b7", fontWeight: "bold"}}>Register</Text>
+                    </TouchableOpacity>
+                    : <Text></Text>}
+                </View>                                 
+            </View>
+            {/* provide padding at bottom */}
+            <View style={{flex: 1}}/>  
+        </KeyboardAvoidingView>
     )
 }
 
@@ -168,9 +169,8 @@ export default Login;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
         backgroundColor: 'white', 
-        padding: 20
+        justifyContent: 'flex-end'
     },
     loginWrapper: {
         borderColor: "#ccc",

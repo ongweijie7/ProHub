@@ -29,28 +29,26 @@ const CustomDrawer = (props) => {
 
     return (
         <View style={{flex: 1}}>
-            <DrawerContentScrollView 
-                {...props} 
-                contentContainerStyle={{backgroundColor: '#8200d6'}}>
-                    {/*Top Half of drawer */}
-                    <ImageBackground
-                     source={require('../assets/menu-bg.jpeg')}
-                     style={{padding: 20}}>
-                     <Image
-                       source={require('../assets/user-profile.jpg')}
-                       style={{height: 80, width: 80, borderRadius: 40, marginBottom: 10}}
-                     />
-                    <Text style={{fontSize: 18, color: 'white'}}>{global.username}</Text>
-                    <View style={{flexDirection: 'row'}}>
-                        <Text style={{color: 'white'}}>{global.coins} Coins </Text>
-                        <FontAwesome5 name="coins" size={14} color="white" />
-                    </View>
-                    </ImageBackground>
+            <DrawerContentScrollView {...props} >               
+                {/*Top Half of drawer */}
+                <ImageBackground
+                    source={require('../assets/flowing-blue-abstract-texture.jpg')}
+                    style={{padding: 20, marginTop: -4}}>
+                    <Image
+                    source={require('../assets/user-profile.jpg')}
+                    style={{height: 80, width: 80, borderRadius: 40, marginBottom: 10}}
+                    />
+                <Text style={{fontSize: 18, color: 'white'}}>{global.username}</Text>
+                <View style={{flexDirection: 'row'}}>
+                    <Text style={{color: 'white'}}>{global.coins} Coins </Text>
+                    <FontAwesome5 name="coins" size={14} color="white" />
+                </View>
+                </ImageBackground>
 
-                    {/*Drawer screens*/}
-                    <View style={{flex:1, backgroundColor:'white',paddingTop:10}}>
-                        <DrawerItemList {...props} />
-                    </View>
+                {/*Drawer screens*/}
+                <View style={{flex:1, backgroundColor:'white',paddingTop:10}}>
+                    <DrawerItemList {...props} />
+                </View>
             </DrawerContentScrollView>
 
             {/*Sign Out button*/}
