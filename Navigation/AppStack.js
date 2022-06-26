@@ -9,7 +9,7 @@ import FocusTimer from '../screens/FocusTimer';
 
 import CustomDrawer from '../components/CustomDrawer'
 
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -28,27 +28,29 @@ const AppStack = () => {
                     fontSize: 15
                 },
             }}>
-            <Drawer.Screen name="Aquarium" component={Aquarium} options={{
+              
+            <Drawer.Screen name="LeaderBoard" component={Aquarium} options={{
                 drawerIcon: ({color}) => (
-                    <MaterialCommunityIcons name="fishbowl-outline" size={24} color={color} />
+                    <MaterialIcons name="leaderboard" size={24} color={color} />
                 )
             }}/>
+
+            <Drawer.Screen name="Todo List" component={Todo} options={{
+                drawerIcon: ({color}) => (
+                    <Ionicons name="list-outline" size={24} color={color} /> 
+                ),
+            }}/> 
+
             <Drawer.Screen name="Focus" component={FocusTimer} options={{
                 drawerIcon: ({color}) => (
                     <MaterialCommunityIcons name="timer-outline" size={24} color={color} />
                 )
             }}/>
-            <Drawer.Screen name="Today's Tasks" component={Todo} options={{
-                drawerIcon: ({color}) => (
-                    <Ionicons name="list-outline" size={24} color={color} /> 
-                ),
-                headerShown: false, 
-            }}/>
+
             <Drawer.Screen name="Reminders" component={Reminders} options={{
                 drawerIcon: ({color}) => (
                     <AntDesign name="calendar" size={24} color={color} />
                 ),
-                headerShown: false, 
             }}/>
         </Drawer.Navigator>
     )
