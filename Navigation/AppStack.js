@@ -9,9 +9,7 @@ import FocusTimer from '../screens/FocusTimer';
 
 import CustomDrawer from '../components/CustomDrawer'
 
-import { MaterialIcons } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons, MaterialCommunityIcons, AntDesign, Ionicons } from '@expo/vector-icons';
 
 import Tabs from './tabs';
 
