@@ -18,6 +18,7 @@ export default function FocusTimer() {
     alert("time is changed");
     console.log(duration1);
     setDuration(duration1 );
+    setModalOpen(false);
   }
 
   const closeModal = () => {
