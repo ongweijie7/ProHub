@@ -5,6 +5,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import Todo from '../screens/Todo';
 import Reminders from '../screens/Reminders';
 import Aquarium from '../screens/Aquarium';
+import FocusTimer from '../screens/FocusTimer';
 
 import CustomDrawer from '../components/CustomDrawer'
 
@@ -30,6 +31,11 @@ const AppStack = () => {
             <Drawer.Screen name="Aquarium" component={Aquarium} options={{
                 drawerIcon: ({color}) => (
                     <MaterialCommunityIcons name="fishbowl-outline" size={24} color={color} />
+                )
+            }}/>
+            <Drawer.Screen name="Focus" component={FocusTimer} options={{
+                drawerIcon: ({color}) => (
+                    <MaterialCommunityIcons name="timer-outline" size={24} color={color} />
                 )
             }}/>
             <Drawer.Screen name="Today's Tasks" component={Todo} options={{
