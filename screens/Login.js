@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, KeyboardAvoidingView, TextInput, Button } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, KeyboardAvoidingView, TextInput, Button, ImageBackground, Image, StatusBar} from 'react-native';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 import { AntDesign } from '@expo/vector-icons';
 import validator from "validator";
 import firebaseApp from '../firebase.config';
-
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 firebaseApp;
 
 const Login = ({navigation}) => {
@@ -13,7 +13,7 @@ const Login = ({navigation}) => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [signingIn, setSigningIn] = useState(true);
-    const [description, setDescription] = useState("Login");
+    const [description, setDescription] = useState("LOGIN");
     
     {/*Validates whether email and password is valid*/}
     const validateFields = (email, password) => {
@@ -95,52 +95,71 @@ const Login = ({navigation}) => {
     
     
     return (
-        <KeyboardAvoidingView style={styles.container}
-          behavior={Platform.OS === "ios" ? "padding" : "height"}>
+        <View style={{flex: 1}}>
+            <StatusBar barStyle="light-content" />
+            <ImageBackground
+                source={require('../assets/flowing-blue-abstract-texture.jpg')}
+                style={{padding: 75}}>
+                <View style={{paddingTop: 0, alignSelf: "center"}}>
+                <MaterialCommunityIcons name="image-filter-center-focus-weak" size={40} color="white" />
+                </View>
+                <Text style={{alignSelf: 'center', color: "white", fontSize: 24}}>Hocus Focus</Text>
+            </ImageBackground>
+
+            <KeyboardAvoidingView style={styles.container}
+                behavior={Platform.OS === "ios" ? "padding" : "height"}>
+
+                <Text style={{fontSize: 20, padding: 30, fontWeight: '800'}}>LOGIN</Text>
+                
+                <View style={styles.loginWrapper}> 
+                    <TextInput 
+                    placeholder={"Email Address"} 
+                    value={emailAddress} 
+                    onChangeText={setEmailAddress}
+                    style={{width: 300}}
+                    /> 
+                </View>
+
+                    {!signingIn 
+                    ? <View style={styles.loginWrapper}>
+                    <TextInput 
+                    placeholder={"Password"} 
+                    value={password} 
+                    onChangeText={setPassword}
+                    secureTextEntry={true}
+                    style={{width: 300}}
+                    /> 
+                </View>
+                : <View></View>
+                }
+                
+
+                <View style={styles.loginWrapper}>
+                    <TextInput 
+                        placeholder={signingIn ? "Password" : "Re-enter Password"} 
+                        value={signingIn ? password : confirmPassword} 
+                        onChangeText={signingIn ? setPassword: setConfirmPassword}
+                        secureTextEntry={true}
+                        style={{width: 300}}
+                    /> 
+                </View>
 
 
-            <View style={styles.loginWrapper}>
-            <TextInput 
-              placeholder={"Email Address"} 
-              value={emailAddress} 
-              onChangeText={setEmailAddress}
-            /> 
-            </View>
+                <TouchableOpacity onPress={signingIn ? signIn : signUp} style={styles.addWrapper}>
+                        <Text style={{color: "white", fontSize: 20, padding: 3}}>{description}</Text>
+                </TouchableOpacity>
 
-            {!signingIn 
-            ? <View style={styles.loginWrapper}>
-            <TextInput 
-              placeholder={"Password"} 
-              value={password} 
-              onChangeText={setPassword}
-              secureTextEntry={true}
-            /> 
-            </View>
-            : <View></View>
-            }
-            
-
-            <View style={styles.loginWrapper}>
-            <TextInput 
-              placeholder={signingIn ? "Password" : "Re-enter Password"} 
-              value={signingIn ? password : confirmPassword} 
-              onChangeText={signingIn ? setPassword: setConfirmPassword}
-              secureTextEntry={true}
-              
-            /> 
-            <TouchableOpacity onPress={signingIn ? signIn : signUp} style={{flexDirection: 'row'}}>
-                <AntDesign name={"login"} size={24} color="black" />
-                <Text>{description}</Text>
-            </TouchableOpacity>
-            </View>
-
-            <View>
-            { signingIn 
-            ? <Button style={styles.button} title={"Don't have an account yet?"} onPress={register}/>
-            : <Text></Text>}
-            </View>
-            
-        </KeyboardAvoidingView>
+                <View>
+                { signingIn 
+                ? <TouchableOpacity style={{flexDirection: 'row', marginTop: 15}} onPress={register}>
+                    <Text style={{color: "#b7b7b7"}}>Don't have an account?  </Text>
+                    <Text style={{textDecorationLine: 'underline', color: "#b7b7b7", fontWeight: "bold"}}>Register</Text>
+                </TouchableOpacity>
+                : <Text></Text>}
+                </View>
+            </KeyboardAvoidingView>
+        </View>
+        
     )
 }
 
@@ -150,19 +169,28 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
         backgroundColor: 'white', 
         padding: 20
     },
     loginWrapper: {
         borderColor: "#ccc",
         borderWidth: 2,
-        borderRadius: 10,
+        borderRadius: 5,
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: 10
-    }
+        padding: 10,
+        marginVertical: 10
+    },
+    addWrapper: {
+        backgroundColor: '#0F52BA',
+        padding: 10,
+        width: '100%',
+        borderRadius: 10,
+        flexDirection: 'row',
+        marginTop: 50,
+        justifyContent: 'center'
+    },
 
 });

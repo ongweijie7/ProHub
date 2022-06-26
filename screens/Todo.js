@@ -126,14 +126,14 @@ const styles = StyleSheet.create({
   container: { 
     flex: 1,
     backgroundColor: "#E8EAED",
-    marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
+    borderTopColor: "#dcdcdc", borderTopWidth: 1
   },
   header: {
     flexDirection: 'row', 
     justifyContent: 'space-between',
   },
   tasksWrapper: {
-    paddingTop: 50,
+    paddingTop: 10,
     paddingHorizontal: 10,
   },
   sectionTitle: {

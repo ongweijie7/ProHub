@@ -189,7 +189,7 @@ const Reminders = () => {
 
   return (
     // Temp fix to status bar
-    <View style={{flex: 1, marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0}}>
+    <View style={{flex: 1, borderTopColor: "#dcdcdc", borderTopWidth: 1}}>
       <Agenda
         minDate={'2022-01-01'}
         items={items}
