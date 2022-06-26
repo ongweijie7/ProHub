@@ -106,22 +106,29 @@ const Reminders = () => {
       ]);
     } else {
       let tempDate = new Date(date);
-      let fDate = tempDate.getFullYear() + '-0' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate();
+      let day = tempDate.getDate() < 10 ? '0' + tempDate.getDate()  : tempDate.getDate();
+      let fDate = tempDate.getFullYear() + '-0' + (tempDate.getMonth() + 1) + '-' + day;
       
       // Schedules local notification
       const id = await schedulePushNotification(date, time, title, notes);
       let item = {name: title, details: notes, date: fDate, time: nicerTime(time), id: id};
 
       const newerItems = {};
+        // Add new item in
+        if (items[fDate] !== 'undefined') {
+          newerItems[fDate] = items[fDate];          
+        } else {
+          newerItems[fDate] = [];
+        }
+        newerItems[fDate].push(item);
+
+        // Copies over rest of items
         Object.keys(items).forEach((key) => {
-          if (key == fDate) {
-            newerItems[key] = items[key];
-            newerItems[key].push(item);
-          } else {
-            newerItems[key] = items[key];
-          }
-      });
-      
+          if (key !== fDate) {
+              newerItems[key] = items[key];
+            }
+        });
+
       // Reset Modal to blank form
       setItems(newerItems);
       setModalOpen(false);
