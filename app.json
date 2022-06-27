@@ -1,7 +1,9 @@
 {
   "expo": {
-    "name": "my-app",
-    "slug": "my-app",
+    "name": "Prohub",
+    "slug": "prohub",
+    "privacy": "public",
+    "description": "Productivity app for students",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
