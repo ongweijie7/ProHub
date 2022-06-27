@@ -19,7 +19,7 @@ const OnBoardingScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.titleWrapper}>
-        <Text style={styles.title}>Feeding Fishes</Text>
+        <Text style={styles.title}>Productivity Hub</Text>
       </View>
       <View style={styles.img}>
         <FishTank width={300} height={300} />
@@ -27,7 +27,7 @@ const OnBoardingScreen = ({navigation}) => {
       <TouchableOpacity 
         onPress={() => navigation.navigate('Placeholder loginScreen')}
         style={styles.buttonWrapper}>
-        <Text style={styles.buttonText}>Your aquarium awaits!</Text>
+        <Text style={styles.buttonText}>Let's go!</Text>
         <MaterialCommunityIcons name="jellyfish-outline" size={24} color="white" />
       </TouchableOpacity>
       

@@ -106,7 +106,7 @@ const Login = ({navigation}) => {
                 <View style={{paddingTop: 0, alignSelf: "center"}}>
                     <MaterialCommunityIcons name="book-clock-outline" size={40} color="white" />
                 </View>
-                <Text style={{alignSelf: 'center', color: "white", fontSize: 24, width: 240}}>PROHUB</Text>
+                <Text style={{alignSelf: 'center', color: "white", fontSize: 24}}>PROHUB</Text>
             </ImageBackground>
 
 
