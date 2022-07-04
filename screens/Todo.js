@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import { ScrollView, StyleSheet, Text, View ,KeyboardAvoidingView, TextInput, TouchableOpacity, StatusBar } from 'react-native';
+import React, {useEffect, useState} from "react";
+import { ScrollView, StyleSheet, Text, View ,KeyboardAvoidingView, TextInput, TouchableOpacity} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 
@@ -9,6 +9,17 @@ import CustomSwitch from '../components/CustomSwitch';
 
 import global from '../global';
 
+import { firebaseApp } from '../firebase.config';
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot, setDoc } from 'firebase/firestore';
+
+//initialising database
+const db = getFirestore(firebaseApp);
+
+//getting collection reference
+const colRef = collection(db, 'Users/Wei Jie/ToDoList');
+
+global.coins = coins;
+
 const Todo = ({navigation}) => {
   const [task, setTask] = useState();
   const [taskItems, setTaskItems] = useState([])
@@ -16,7 +27,36 @@ const Todo = ({navigation}) => {
   const [todoTab, setTodoTab] = useState(1);
   const [coins, setCoins] = useState(0);
 
-  global.coins = coins;
+  const [data, setData] = useState([])
+  
+  //Renders List of tasks from data base
+  useEffect(() => {
+    const todos = []
+    onSnapshot(colRef, (snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        todos.push(doc.id);
+      })
+    });
+    setTaskItems(todos);
+    
+  }, []);
+
+  {/*removes the task from the database*/}
+  const removeFromToDoCollection = (index) => {
+    const TaskName = taskItems[index];
+    console.log(TaskName);
+    addToCompletedCollection(TaskName);
+    const docRef = doc(db, 'Users/Wei Jie/ToDoList', TaskName);
+    deleteDoc(docRef);
+  }
+
+  {/*Adds task to Completed Collection*/}
+  const addToCompletedCollection = (Task) => {
+    const taskref = doc(db, 'Users/Wei Jie/CompletedToDoList', Task);
+    setDoc(taskref,{});
+  }
+
+
 
   const onSelectSwitch = (value) => {
       setTodoTab(value);
@@ -24,12 +64,15 @@ const Todo = ({navigation}) => {
 
   const handleAddTask = () => {
     setTaskItems([...taskItems, task])
+    const taskref = doc(db, 'Users/Wei Jie/ToDoList', task);
+    setDoc(taskref,{});
     setTask(null);
   }
 
   const completeTask = (index) => {
     doneItems.push(taskItems[index])
     let itemsCopy = [...taskItems];
+    removeFromToDoCollection(index);
     itemsCopy.splice(index, 1);
     setTaskItems(itemsCopy);
     setCoins(coins + 10);
@@ -37,6 +80,7 @@ const Todo = ({navigation}) => {
 
   const deleteDone = (index) => {
     let doneCopy = [...doneItems];
+    
     doneCopy.splice(index, 1);
     setDoneItems(doneCopy);
   }
@@ -72,6 +116,9 @@ const Todo = ({navigation}) => {
               
           {todoTab == 1 &&
             taskItems.map((item, index) => {
+              
+              
+            
               return(
                 <TouchableOpacity key={index} onPress={() => completeTask(index)}>
                   <Task text={item}/>
