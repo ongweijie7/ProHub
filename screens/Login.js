@@ -5,6 +5,7 @@ import { AntDesign } from '@expo/vector-icons';
 import validator from "validator";
 import firebaseApp from '../firebase.config';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 firebaseApp;
 
 const Login = ({navigation}) => {
