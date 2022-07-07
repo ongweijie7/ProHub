@@ -10,26 +10,29 @@ import CustomSwitch from '../components/CustomSwitch';
 import global from '../global';
 
 import { firebaseApp } from '../firebase.config';
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot, setDoc } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot, setDoc, query, where } from 'firebase/firestore';
 
 //initialising database
 const db = getFirestore(firebaseApp);
 
-//getting collection reference
-const colRef = collection(db, 'Users/Wei Jie/ToDoList');
-
 global.coins = coins;
 
 const Todo = ({navigation}) => {
-  const [task, setTask] = useState();
+  const [task, setTask] = useState(null);
   const [taskItems, setTaskItems] = useState([])
   const [doneItems, setDoneItems] = useState([])
   const [todoTab, setTodoTab] = useState(1);
   const [coins, setCoins] = useState(0);
-
-  const [data, setData] = useState([])
   
-  //Renders List of tasks from data base
+  let email = global.email;
+  
+  //getting collection reference
+  const colRef = collection(db, `Users/${email}/ToDoList`);
+
+  const colRef1 = collection(db, `Users/${email}/CompletedToDoList`);
+  
+  //Renders List of unCompleted tasks from database
   useEffect(() => {
     const todos = []
     onSnapshot(colRef, (snapshot) => {
@@ -41,32 +44,54 @@ const Todo = ({navigation}) => {
     
   }, []);
 
-  {/*removes the task from the database*/}
+  //Renders List of Completed tasks from database
+  useEffect(() => {
+    const todos = []
+    onSnapshot(colRef1, (snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        todos.push(doc.id);
+      })
+    });
+    setDoneItems(todos);
+    
+  }, []);
+
+  {/*removes the task from the notDone database*/}
   const removeFromToDoCollection = (index) => {
     const TaskName = taskItems[index];
     console.log(TaskName);
     addToCompletedCollection(TaskName);
-    const docRef = doc(db, 'Users/Wei Jie/ToDoList', TaskName);
+    const docRef = doc(db, `Users/${email}/ToDoList`, TaskName);
+    deleteDoc(docRef);
+  }
+
+  {/*removes the task from the done database*/}
+  const removeDoneCollection = (index) => {
+    const TaskName = doneItems[index];
+    console.log(TaskName);
+    const docRef = doc(db, `Users/${email}/CompletedToDoList`, TaskName);
     deleteDoc(docRef);
   }
 
   {/*Adds task to Completed Collection*/}
   const addToCompletedCollection = (Task) => {
-    const taskref = doc(db, 'Users/Wei Jie/CompletedToDoList', Task);
+    const taskref = doc(db, `Users/${email}/CompletedToDoList`, Task);
     setDoc(taskref,{});
   }
-
-
 
   const onSelectSwitch = (value) => {
       setTodoTab(value);
   }
-
+  {/*Adds new task*/}
   const handleAddTask = () => {
-    setTaskItems([...taskItems, task])
-    const taskref = doc(db, 'Users/Wei Jie/ToDoList', task);
-    setDoc(taskref,{});
-    setTask(null);
+    if (task == null) {
+      alert("Please input a valid task");
+    } else {
+      setTaskItems([...taskItems, task])
+      const taskref = doc(db, `Users/${email}/ToDoList`, task);
+      setDoc(taskref,{});
+      setTask(null);
+    }
   }
 
   const completeTask = (index) => {
@@ -80,7 +105,7 @@ const Todo = ({navigation}) => {
 
   const deleteDone = (index) => {
     let doneCopy = [...doneItems];
-    
+    removeDoneCollection(index);
     doneCopy.splice(index, 1);
     setDoneItems(doneCopy);
   }

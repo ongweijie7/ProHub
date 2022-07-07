@@ -1,16 +1,20 @@
 import React, {useState} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, KeyboardAvoidingView, TextInput, Button, ImageBackground, Image, StatusBar} from 'react-native';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
-import { AntDesign } from '@expo/vector-icons';
-import validator from "validator";
-import firebaseApp from '../firebase.config';
+import validator from 'validator';
+
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+
+import firebaseApp from '../firebase.config';
+import CreateAcc from '../Firebase backend/CreateAcc';
+import SignIn from '../Firebase backend/SignIn';
 
 firebaseApp;
 
 const Login = ({navigation}) => {
     const auth  = getAuth();
     const [emailAddress, setEmailAddress] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [signingIn, setSigningIn] = useState(true);
@@ -32,6 +36,12 @@ const Login = ({navigation}) => {
         return isValid;
     };
 
+     {/*Button to swap to Register*/}
+     const register = () => {
+        setSigningIn(false);
+        setDescription("Sign Up Now!!");
+    }
+
     {/*Confirmation Button to swap to Sign In*/}    
     const signIn = () => {
         signOut(auth).then(() => {
@@ -41,28 +51,19 @@ const Login = ({navigation}) => {
          });
 
         signInWithEmailAndPassword(auth, emailAddress, password)
-        .then((userCredential) => {
-            const user = userCredential.user;
-            global.username = emailAddress;
-            navigation.replace('Main')
+        .then(() => {
+            SignIn(emailAddress);
+            navigation.replace('Main');
         })
         .catch((error) => {
-            const errorCode = error.code;
             const errorMessage = error.message;
             console.log(errorMessage);
             alert("Wrong Email/Password.Please check again");
         });
     };
 
-    {/*Button to swap to Register*/}
-    const register = () => {
-        setSigningIn(false);
-        setDescription("Sign Up Now!!");
-    }
-
     {/*Confirmation Button to register*/}
     const signUp = () => {
-        
         let valid = true;
         const isValid = validateFields(
             emailAddress, 
@@ -81,14 +82,15 @@ const Login = ({navigation}) => {
         }
         
         if (isValid.password && isValid.email && valid) {
-            createUserWithEmailAndPassword(auth, emailAddress, password).then(
-                () => {
-                    alert("Welcome!!");
-                    global.username = emailAddress;
-                    navigation.replace('Main');
+            createUserWithEmailAndPassword(auth, emailAddress, password)
+            .then(() => {
+                alert("Welcome!!");
+                navigation.replace('Main'); 
+                CreateAcc(emailAddress, username);
+                console.log("creating account");
             })
             .catch((error) => {
-                alert("hi that was an incorrect email");
+                console.log(error.message);
             });
         }
         
@@ -113,6 +115,18 @@ const Login = ({navigation}) => {
 
             <View style={{alignItems: 'center', padding: 10}}>
                 <Text style={{fontSize: 20, padding: 30, fontWeight: '800'}}>LOGIN</Text>
+
+                {!signingIn
+                ? <View style={styles.loginWrapper}> 
+                    <TextInput 
+                    placeholder={"Username"} 
+                    value={username} 
+                    onChangeText={setUsername}
+                    style={{width: 300}}
+                    /> 
+                </View>
+                : <View></View>
+                }
                 
                 <View style={styles.loginWrapper}> 
                     <TextInput 
