@@ -4,7 +4,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import Todo from '../screens/Todo';
 import Reminders from '../screens/Reminders';
-import Aquarium from '../screens/Aquarium';
+import LeaderBoard from '../screens/Leaderboard';
 import FocusTimer from '../screens/FocusTimer';
 
 import CustomDrawer from '../components/CustomDrawer'
@@ -27,7 +27,7 @@ const AppStack = () => {
                 },
             }}>
               
-            <Drawer.Screen name="LeaderBoard" component={Aquarium} options={{
+            <Drawer.Screen name="LeaderBoard" component={LeaderBoard} options={{
                 drawerIcon: ({color}) => (
                     <MaterialIcons name="leaderboard" size={24} color={color} />
                 )

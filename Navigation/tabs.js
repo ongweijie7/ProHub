@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 
 import Reminders from '../screens/Reminders';
-import Aquarium from '../screens/Aquarium';
+import LeaderBoard from '../screens/Leaderboard';
 import Todo from '../screens/Todo';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -49,7 +49,7 @@ const Tabs = () => {
                 tabBarStyle: {display: 'none'}
             }} />
 
-            <Tab.Screen name="Aquarium" component={Aquarium} options={{
+            <Tab.Screen name="Aquarium" component={LeaderBoard} options={{
                 tabBarIcon: ({color, size}) => (
                     <MaterialCommunityIcons name="fishbowl-outline" size={size} color={color} />
                 )

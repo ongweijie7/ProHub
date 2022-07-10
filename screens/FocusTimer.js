@@ -20,8 +20,6 @@ export default function FocusTimer() {
   const submit = () => {
     setKey(prevKey => prevKey + 1);
     let duration1 = 0;
-    console.log(hours.number);
-    console.log(minutes.number);
     if (hours.number == undefined || minutes.number == undefined) {
       setModalOpen(false);
       if (hours.number == undefined && minutes.number == undefined) {
@@ -35,8 +33,6 @@ export default function FocusTimer() {
     } else {
       duration1 = hours.number * 60 * 60 + minutes.number * 60;
       alert("Time to do WORK");
-      console.log(duration1);
-      
       setModalOpen(false);
     }
 
@@ -85,7 +81,6 @@ export default function FocusTimer() {
   }
 
 
-
   const changeToHours = (seconds) => {
     return Math.floor(seconds/3600);
   }
@@ -113,28 +108,23 @@ export default function FocusTimer() {
         key={key}
       >
       {({ remainingTime, color }) => (
-        <TouchableOpacity style={styles.centerButton} onPress={() => setModalOpen(true)}>
+        <TouchableOpacity onPress={() => setModalOpen(true)}>
           
           { duration == -1
           ? <View><Text style={{ color, fontSize: 40 }}>Start FOCUSING!!</Text></View>
-          : (<View>
+          : (<View style={{flexDirection:'row', alignItems:'center'}}>
             {duration >= 3600
             ? <Text style={{ color, fontSize: 40 }}>
-              
-              {changeToHours(remainingTime)} hours
+              {changeToHours(remainingTime)}:
             </Text>
             :<Text></Text>}
-
-
             {duration >= 60
             ? <Text style={{ color, fontSize: 40 }}>
-              
-              {changeToMinutes(remainingTime)} minutes
+              {changeToMinutes(remainingTime)}:
             </Text>
             :<Text></Text>}
             <Text style={{ color, fontSize: 40 }}>
-              
-              {changeToSeconds(remainingTime)} seconds  
+              {changeToSeconds(remainingTime)} 
             </Text>
           </View>)}
         </TouchableOpacity>
@@ -170,7 +160,4 @@ const styles = StyleSheet.create({
     wdith:30,
     
   },
-  centerButton: {
-    
-  }
 });

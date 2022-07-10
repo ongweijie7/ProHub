@@ -14,7 +14,9 @@ export default function SignIn(emailAddress) {
             global.email = emailAddress;
             global.username = docSnap.data().Name;
             global.coins = docSnap.data().Coins;
+            global.leaderboard = docSnap.data().Leaderboard;
             console.log(docSnap.data());
+            console.log(global.email);
         } else {
             console.log("no such document")
         }
