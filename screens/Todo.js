@@ -17,9 +17,6 @@ import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot, 
 const db = getFirestore(firebaseApp);
 
 
-
-// global.coins = coins;
-
 const Todo = ({navigation}) => {
   const [task, setTask] = useState(null);
   const [taskItems, setTaskItems] = useState([])
@@ -34,8 +31,6 @@ const Todo = ({navigation}) => {
 
   const colRef1 = collection(db, `Users/${email}/CompletedToDoList`);
 
-  
-  
   {/*Renders List of unCompleted tasks from database*/}
   useEffect(() => {
     const todos = [];
