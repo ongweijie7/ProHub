@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Button } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Button, TextInput } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import global from '../global';
-import { trackChanges } from '../Firebasebackend/Leaderboard';
+import { trackChanges, addUser } from '../Firebasebackend/LeaderboardBackend';
 
 import { firebaseApp } from "../firebase.config";
-import { doc, onSnapshot, updateDoc, getDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
 
 //initialising database
@@ -14,24 +14,21 @@ const db = getFirestore(firebaseApp);
 
 const LeaderBoard = () => {
     const [arr, setarr] = useState(global.leaderboard);
+    const [email, setemail] = useState("");
 
-    console.log(global.email);
-
-    // const docref = doc(db, "Users", "ongweijie7@gmail.com");
     const docref = doc(db, "Users", global.email);
 
     const add = () => {
-        updateDoc(docref, {
-            Name: "hello",
-        })
-        setarr(global.leaderboard);
+        addUser(email);
     }
     //doesnt seem to be loading the relevant detaits -> cannot find snapshot
     useEffect(() => {
         let leaderboard = [];
+        console.log(global.leaderboard);
+        console.log(global.email);
         getDoc(docref).then((snapshot) => {
             if (snapshot.exists()){
-                leaderboard = snapshot.data().Leaderboard;
+                leaderboard = snapshot.data().leaderboard;
             } else {
                 console.log("no such document")
             }
@@ -53,7 +50,13 @@ const LeaderBoard = () => {
                     <Text>{item}</Text>
                 )}
             />
-            <Button onPress={add} title={"Don't press me"}/>
+            <TextInput 
+                placeholder={"Email Address"} 
+                value={email} 
+                onChangeText={setemail}
+                style={{width: 300}}
+            /> 
+            <Button onPress={add} title={"Add friend"}/>
             
         </View>
     )

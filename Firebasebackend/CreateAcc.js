@@ -11,10 +11,15 @@ export default function CreateAcc(email, name) {
     global.coins = 0;
     global.email = email;
     global.username = name;
+    global.leaderboard = [];
+    global.friends = [];
     const userRef = doc(db, "Users", email);
     setDoc(userRef, {
-        Coins: 0,
-        Name: name, 
+        coins: 0,
+        name: name,
+        email: email,
+        leaderboard: [],
+        friends: [], 
     });
 }
 

@@ -9,13 +9,15 @@ const db = getFirestore(firebaseApp);
 global.coins = 0;
 global.username = "";
 global.email = "hello" //used to access the respective collection
-global.leaderboard = null;
+global.leaderboard = [];
+global.friends = []
 
 global.updateCoins = (amount) => {
     const docref = doc(db, "Users", global.email);
+    console.log(docref);
     global.coins += amount;
     updateDoc(docref, {
-        Coins: global.coins,
+        coins: global.coins,
     })
 }
 

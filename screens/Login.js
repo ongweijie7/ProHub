@@ -7,7 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import firebaseApp from '../firebase.config';
 import CreateAcc from '../Firebasebackend/CreateAcc';
-import SignIn from '../Firebasebackend/SignIn';
+import LoginBackend from '../Firebasebackend/LoginBackend';
 
 firebaseApp;
 
@@ -52,10 +52,9 @@ const Login = ({navigation}) => {
 
         signInWithEmailAndPassword(auth, emailAddress, password)
         .then(() => {
-            SignIn(emailAddress);
-        })
-        .then(() => {
-            navigation.replace('Main');
+            LoginBackend(emailAddress).then(() => {
+                navigation.replace('Main');
+            })
         })
         .catch((error) => {
             const errorMessage = error.message;
