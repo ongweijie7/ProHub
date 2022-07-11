@@ -24,8 +24,6 @@ const LeaderBoard = () => {
     //doesnt seem to be loading the relevant detaits -> cannot find snapshot
     useEffect(() => {
         let leaderboard = [];
-        console.log(global.leaderboard);
-        console.log(global.email);
         getDoc(docref).then((snapshot) => {
             if (snapshot.exists()){
                 leaderboard = snapshot.data().leaderboard;
