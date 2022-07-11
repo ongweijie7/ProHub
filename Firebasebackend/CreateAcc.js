@@ -13,6 +13,7 @@ export default function CreateAcc(email, name) {
     global.username = name;
     global.leaderboard = [];
     global.friends = [];
+    global.level = 1;
     const userRef = doc(db, "Users", email);
     setDoc(userRef, {
         coins: 0,
@@ -20,6 +21,7 @@ export default function CreateAcc(email, name) {
         email: email,
         leaderboard: [],
         friends: [], 
+        level: 1,
     });
 }
 

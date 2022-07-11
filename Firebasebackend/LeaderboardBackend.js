@@ -22,7 +22,7 @@ const addUser = (email) => {
             const arr1 = global.friends;
             arr.push(global.email);
             arr1.push(email);
-            //updates the
+            
             updateDoc(docref, {
                 friends: arr,
             })

@@ -14,7 +14,10 @@ export default async function SignIn(email) {
             global.email = email;
             global.username = docSnap.data().name;
             global.coins = docSnap.data().coins;
-            global.leaderboard = docSnap.data().leaderboard;
+            global.leaderboard = docSnap.data().leaderboard; 
+            global.friends = docSnap.data().friends;
+            global.level = docSnap.data().level;
+            
         } else {
             console.log("no such document")
         }

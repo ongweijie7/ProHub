@@ -14,24 +14,26 @@ export default function FocusTimer() {
   const [coins, setCoins] = useState(false);
   const [duration, setDuration] = useState(-1);
   
-  const [hours, setHours] = useState(0);
-  const [minutes, setMinutes] = useState(0);
+  const [hours, setHours] = useState("");
+  const [minutes, setMinutes] = useState("");
 
   const submit = () => {
     setKey(prevKey => prevKey + 1);
     let duration1 = 0;
-    if (hours.number == undefined || minutes.number == undefined) {
+    console.log(hours);
+    console.log(minutes);
+    if (hours == undefined || minutes == undefined) {
       setModalOpen(false);
-      if (hours.number == undefined && minutes.number == undefined) {
+      if (hours == undefined && minutes == undefined) {
         alert("please give valid inputs");
-      } else if (minutes.number == undefined) {
-        duration1 = hours.number * 60 * 60;
+      } else if (minutes == undefined) {
+        duration1 = hours * 60 * 60;
       } else {
-        duration1 = minutes.number * 60;
+        duration1 = minutes * 60;
       }
 
     } else {
-      duration1 = hours.number * 60 * 60 + minutes.number * 60;
+      duration1 = hours * 60 * 60 + minutes * 60;
       alert("Time to do WORK");
       setModalOpen(false);
     }
@@ -138,9 +140,9 @@ export default function FocusTimer() {
 
     <View><Button title={"Reset"} onPress={resetTimer}/></View>
 
-    <CustomModal open={modalOpen} onPress={closeModal} hours={hours} setHours={(number) => {setHours( {number} )}}
-      minutes={minutes} setMinutes={(number) => setMinutes({number})} onSubmit={submit}/>
-    
+    <CustomModal open={modalOpen} onPress={closeModal} hours={hours} setHours={(number) => {setHours( number )}}
+      minutes={minutes} setMinutes={(number) => setMinutes( number )} onSubmit={submit}/>
+    {/* parseInt(text,10) */}
   </View>
   );
 }

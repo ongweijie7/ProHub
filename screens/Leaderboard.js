@@ -11,7 +11,6 @@ import { getFirestore } from "firebase/firestore";
 //initialising database
 const db = getFirestore(firebaseApp);
 
-
 const LeaderBoard = () => {
     const [arr, setarr] = useState(global.leaderboard);
     const [email, setemail] = useState("");

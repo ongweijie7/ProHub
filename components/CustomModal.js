@@ -13,9 +13,9 @@ export default function CustomModal(props) {
                     size={24}
                     onPress={props.onPress}/>
                     <Text> Hours</Text>
-                    <TextInput style={styles.input} keyboardType="numeric" value={props.hours} onChangeText={(text) => props.setHours(parseInt(text,10))}></TextInput>
+                    <TextInput style={styles.input} keyboardType="numeric" value={String(props.hours)} onChangeText={(text) => props.setHours(text)}></TextInput>
                     <Text> Minutes </Text>
-                    <TextInput style={styles.input} keyboardType="numeric" value={props.minutes} onChangeText={(text) => props.setMinutes(parseInt(text,10))}></TextInput>
+                    <TextInput style={styles.input} keyboardType="numeric" value={String(props.minutes)} onChangeText={(text) => props.setMinutes(text)}></TextInput>
 
                     <View style={styles.button}>
                     <TouchableOpacity onPress={props.onSubmit} styles={{borderColor:'black'}}>
