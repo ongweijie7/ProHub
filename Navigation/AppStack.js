@@ -6,6 +6,7 @@ import Todo from '../screens/Todo';
 import Reminders from '../screens/Reminders';
 import LeaderBoard from '../screens/Leaderboard';
 import FocusTimer from '../screens/FocusTimer';
+import ProtoBoard from '../screens/ProtoBoard';
 
 import CustomDrawer from '../components/CustomDrawer'
 
@@ -28,6 +29,12 @@ const AppStack = () => {
             }}>
               
             <Drawer.Screen name="LeaderBoard" component={LeaderBoard} options={{
+                drawerIcon: ({color}) => (
+                    <MaterialIcons name="leaderboard" size={24} color={color} />
+                )
+            }}/>
+            {/* Prototype leaderboard */}
+            <Drawer.Screen name="ProtoBoard" component={ProtoBoard} options={{
                 drawerIcon: ({color}) => (
                     <MaterialIcons name="leaderboard" size={24} color={color} />
                 )

@@ -115,7 +115,7 @@ const Login = ({navigation}) => {
 
 
             <View style={{alignItems: 'center', padding: 10}}>
-                <Text style={{fontSize: 20, padding: 30, fontWeight: '800'}}>LOGIN</Text>
+                <Text style={{fontSize: 20, padding: 20, fontWeight: '800'}}>LOGIN</Text>
 
                 {!signingIn
                 ? <View style={styles.loginWrapper}> 
@@ -172,7 +172,15 @@ const Login = ({navigation}) => {
                         <Text style={{textDecorationLine: 'underline', color: "#b7b7b7", fontWeight: "bold"}}>Register</Text>
                     </TouchableOpacity>
                     : <Text></Text>}
-                </View>                                 
+                </View>
+
+                <View>
+                    {!signingIn 
+                    ? <TouchableOpacity style={{flexDirection: 'row', marginTop: -10}} onPress={() => setSigningIn(true)}>
+                        <Text>Back</Text>
+                    </TouchableOpacity>
+                    : <Text></Text>}
+                </View>                                   
             </View>
             {/* provide padding at bottom */}
             <View style={{flex: 1}}/>  
@@ -205,7 +213,7 @@ const styles = StyleSheet.create({
         width: '100%',
         borderRadius: 10,
         flexDirection: 'row',
-        marginTop: 50,
+        marginTop: 30,
         justifyContent: 'center'
     },
 
