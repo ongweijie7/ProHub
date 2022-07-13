@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { firebaseApp } from "./firebase.config";
 import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
+import { updateLeaderboards } from './Firebasebackend/LeaderboardBackend';
 
 //initialising database
 const db = getFirestore(firebaseApp);
@@ -18,11 +19,12 @@ const fullexp = (Math.floor(global.level / 10) + 1) * 50;
 {/*Give exp to user*/}
 global.updateCoins = (amount) => {
     const docref = doc(db, "Users", global.email);
-    console.log(docref);
+    
     global.coins += amount;
     if (global.coins >= fullexp) {
         global.coins -= fullexp;
         global.level++;
+        updateLeaderboards(global.level);
     }
     updateDoc(docref, {
         coins: global.coins,
@@ -30,7 +32,7 @@ global.updateCoins = (amount) => {
     })
 }
 
-{/*Give xp to user*/}
+{/*Upda*/}
 
 
 export default global;

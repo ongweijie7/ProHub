@@ -9,9 +9,9 @@ const db = getFirestore(firebaseApp);
 //query for all user that have currentuser as a friend and then push their latest update into the leaderboard list
 
 {/*Detect whenever there are changes*/}
-const trackChanges = onSnapshot(doc(db, "Users", "ongweijie7@gmail.com"), (snapshot) => {
-    console.log("changes are made");
-});
+// const trackChanges = onSnapshot(doc(db, "Users", "ongweijie7@gmail.com"), (snapshot) => {
+//     console.log("changes are made");
+// });
 
 {/*Query for a valid user and then add it to the current user's friend arr*/}
 const addUser = (email) => {
@@ -22,7 +22,6 @@ const addUser = (email) => {
             const arr1 = global.friends;
             arr.push(global.email);
             arr1.push(email);
-            
             updateDoc(docref, {
                 friends: arr,
             })
@@ -36,7 +35,21 @@ const addUser = (email) => {
     }).catch((error) => {
         console.log(error.message);
     })
-
 }
 
-export { trackChanges, addUser };
+{/*Update the different leaderboards of user's friends*/}
+const updateLeaderboards = (level) => {
+    const docref = doc(db, "Users", global.email);
+    getDoc(docref).then((snapshot) => {
+        const leaderboardArr = snapshot.data().leaderboard;
+        const achievement = `${global.username} just reach ${level}!!`;
+        leaderboardArr.push(achievement);
+        updateDoc(docref, {
+            leaderboard: leaderboardArr,
+        })
+    }).catch((error) => {
+        console.log(error.message);
+    })
+}
+
+export { addUser, updateLeaderboards };

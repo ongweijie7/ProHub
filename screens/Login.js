@@ -8,6 +8,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import firebaseApp from '../firebase.config';
 import CreateAcc from '../Firebasebackend/CreateAcc';
 import LoginBackend from '../Firebasebackend/LoginBackend';
+import LeaderBoard from './Leaderboard';
 
 firebaseApp;
 
