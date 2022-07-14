@@ -1,21 +1,47 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Text, View, ScrollView, TouchableOpacity, ImageBackground, Image, StyleSheet} from 'react-native';
 import Friends from '../components/Friendship';
 import { FontAwesome5 } from '@expo/vector-icons';
 
-const ranppl = [{name: 'Howard', coins: 1000},
-                {name: 'Stark', coins: 999},
-                {name: 'Tony', coins: 832},
-                {name: 'Zoro', coins: 754},
-                {name: 'Juro', coins: 611},
-                {name: 'Rogers', coins: 459},
-                {name: 'Riley', coins: 300},
-                {name: 'Luffy', coins: 250},
-                {name: 'Reid', coins: 198},
-                {name: 'Face', coins: 60},
-                ]
+import { firebaseApp } from "../firebase.config";
+import { doc, getDoc } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
+
+
+//initialising database
+const db = getFirestore(firebaseApp);
 
 const ProtoBoard = ({ navigation }) => {
+
+let [ranppl, setranppl] = useState([{name: 'Howard', coins: 1000},
+                                    {name: 'Stark', coins: 999},
+                                    {name: 'Tony', coins: 832},
+                                    {name: 'Zoro', coins: 754},
+                                    {name: 'Juro', coins: 611},
+                                    {name: 'Rogers', coins: 459},
+                                    {name: 'Riley', coins: 300},
+                                    {name: 'Luffy', coins: 250},
+                                    {name: 'Reid', coins: 198},
+                                    {name: 'Face', coins: 60},
+                                    ])
+
+  console.log(global.email);
+  //this line has issues
+
+  const docref = doc(db, "Users", global.email);
+
+    useEffect(() => {
+      let leaderboard = [];
+      getDoc(docref).then((snapshot) => {
+          if (snapshot.exists()) {
+              leaderboard = snapshot.data().friends;
+          } else {
+              console.log("no such document");
+          }
+      }).then(() => {
+          setranppl(leaderboard);
+      });
+  }, []);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({

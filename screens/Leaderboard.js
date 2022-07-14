@@ -7,23 +7,20 @@ import { addUser } from '../Firebasebackend/LeaderboardBackend';
 import { firebaseApp } from "../firebase.config";
 import { doc, getDoc } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
+import { set } from 'react-native-reanimated';
 
 //initialising database
 const db = getFirestore(firebaseApp);
 
+
+
 export default function LeaderBoard() {
-    const [arr, setarr] = useState(global.leaderboard);
+    const [arr, setarr] = useState();
     const [email, setemail] = useState("");
 
-    const docref = doc(db, "Users", global.email);
-
-    const add = () => {
-        addUser(email);
-    };
-    //need to set the data to load only upon the user name has been loaded
-    //doesnt seem to be loading the relevant details -> cannot find snapshot
     useEffect(() => {
-        let leaderboard = [];
+        let leaderboard = ["hello"];
+        const docref = doc(db, "Users", global.email);
         getDoc(docref).then((snapshot) => {
             if (snapshot.exists()) {
                 leaderboard = snapshot.data().leaderboard;
@@ -33,14 +30,10 @@ export default function LeaderBoard() {
         }).then(() => {
             setarr(leaderboard);
         });
-    }, []);
+    }, [global.email]);
 
-
-    // trackChanges;
     return (
         <View style={styles.container}>
-            {/* <MaterialIcons name="leaderboard" size={75} color="#ccc" />
-            <Text style={styles.text}>Imagine a leaderBoard</Text> */}
             <FlatList
                 data={arr}
                 renderItem={({ item }) => (
@@ -51,7 +44,6 @@ export default function LeaderBoard() {
                 value={email}
                 onChangeText={setemail}
                 style={{ width: 300 }} />
-            <Button onPress={add} title={"Add friend"} />
 
         </View>
     );

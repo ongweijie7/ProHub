@@ -20,8 +20,10 @@ const addUser = (email) => {
         if (snapshot.exists()) {
             const arr = snapshot.data().friends;
             const arr1 = global.friends;
-            arr.push(global.email);
-            arr1.push(email);
+            console.log(arr1);
+            arr.push({name: global.email, coins: global.coins});
+            arr1.push({name: email, coins: 1000});
+            console.log(arr1)
             updateDoc(docref, {
                 friends: arr,
             })
