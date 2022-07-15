@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { Text, View, ScrollView, TouchableOpacity, ImageBackground, Image, StyleSheet} from 'react-native';
 import Friends from '../components/Friendship';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
+import global from '../global';
 
 import { firebaseApp } from "../firebase.config";
 import { doc, getDoc } from "firebase/firestore";
@@ -61,21 +62,22 @@ let [ranppl, setranppl] = useState([{name: 'Howard', coins: 1000},
                 style={styles.image}
               />
               <View style={styles.oneWrapper}>
-                <Text style={styles.oneText}>1</Text>
+                <Text style={styles.oneText}>{global.level}</Text>
               </View>
               
-              {/* Leader Info */}
-              <Text style={{alignSelf: 'center', color: "white", fontSize: 24, fontWeight: '600'}}>{ranppl[0].name}</Text>
+              {/* User Info */}
+              <Text style={{alignSelf: 'center', color: "white", fontSize: 24, fontWeight: '600'}}>{global.username}</Text>
               <View style={{flexDirection: 'row', alignSelf: 'center'}}>
-                <Text style={{color: "white", opacity: 0.5, fontSize: 14, paddingHorizontal: 5}}>{ranppl[0].coins}</Text>
-                <FontAwesome5 name="coins" size={14} color="white" style={{marginTop: 4, opacity: 0.5}}/>
+                <Text style={{color: "white", opacity: 0.5, fontSize: 14, paddingHorizontal: 5}}>{global.coins}</Text>
+                <MaterialCommunityIcons name="star-four-points" size={14} color="white" style={{marginTop: 4, opacity: 0.5}}/>
               </View>
               
-        </View>
-
+          </View>
+          {/* leaderboard people */}
           <ScrollView style={{marginTop: -50}}>
-              {ranppl.slice(1).map((friend, index) => {
+              {ranppl.map((friend, index) => {
                   return(
+                      // open popup maybe?
                       <TouchableOpacity key={index} onPress={() => {}}>
                           <Friends friend={friend} index={index}/>
                       </TouchableOpacity>

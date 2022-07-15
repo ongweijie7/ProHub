@@ -1,6 +1,6 @@
 import React from "react";
 import {View, Text, StyleSheet} from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const Task = (props) => {
     return (
@@ -8,15 +8,16 @@ const Task = (props) => {
             <View style={styles.itemLeft}>
                 <Text style={{fontSize: 16, fontWeight: '600'}}>{props.friend.name}</Text>
                 <View style={{flexDirection: 'row'}}>
-                    <Text style={{fontSize: 14, color: '#B7B7B7', marginRight: 5}}>{props.friend.coins}</Text>
-                    <FontAwesome5 name="coins" size={14} color='#B7B7B7' style={{marginTop: 4}}/>                    
+                    <Text style={{fontSize: 14, color: '#B7B7B7', marginRight: 3}}>{props.friend.coins}</Text>
+                    <MaterialCommunityIcons name="star-four-points" size={14} color='#B7B7B7' style={{marginTop: 2}}/>
                 </View>
             </View>
             <Text style={{fontWeight: 'bold',
                           fontSize: 24,
-                            color: props.index == 0 ? '#CDCDCD' 
-                                : (props.index == 1 ? '#AB7100' : 'black')}}>
-                {props.index + 2}
+                            color: props.index == 0 ? '#e4c000' 
+                                : (props.index == 1 ? '#CDCDCD' 
+                                : (props.index == 2 ? '#AB7100' : 'black'))}}>
+                {props.index + 1}
             </Text>
         </View>
 

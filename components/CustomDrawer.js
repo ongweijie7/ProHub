@@ -1,8 +1,8 @@
 import React from "react";
-import { View, Text, ImageBackground, Image, TouchableOpacity } from 'react-native'
+import { View, Text, ImageBackground, Image, TouchableOpacity, StyleSheet } from 'react-native'
 import { DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
 
-import { FontAwesome5 } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 
 import global from '../global';
@@ -36,12 +36,16 @@ const CustomDrawer = (props) => {
                     style={{padding: 20, marginTop: -4}}>
                     <Image
                     source={require('../assets/user-profile.jpg')}
-                    style={{height: 80, width: 80, borderRadius: 40, marginBottom: 10}}
+                    style={styles.image}
                     />
+                    <View style={styles.oneWrapper}>
+                        <Text style={styles.oneText}>{global.level}</Text>
+                    </View>
+
                 <Text style={{fontSize: 18, color: 'white'}}>{global.username}</Text>
                 <View style={{flexDirection: 'row'}}>
                     <Text style={{color: 'white'}}>{global.coins} Coins </Text>
-                    <FontAwesome5 name="coins" size={14} color="white" />
+                    <MaterialCommunityIcons name="star-four-points" size={14} color="white" />
                 </View>
                 </ImageBackground>
 
@@ -71,3 +75,28 @@ const CustomDrawer = (props) => {
 }
 
 export default CustomDrawer;
+
+const styles = StyleSheet.create({
+    image: {
+      height: 80, 
+      width: 80, 
+      borderRadius: 40, 
+      marginBottom: 10,
+      borderColor: '#C78F01', 
+      borderWidth: 3
+    },
+    oneWrapper: {
+      height: 20,
+      width: 20, 
+      borderRadius: 10,
+      backgroundColor: '#C78F01',
+      marginTop: -20,
+      left: 32
+    },
+    oneText: {
+      alignSelf: 'center', 
+      fontSize:13, 
+      color: 'white', 
+      fontWeight: 'bold'
+    }
+  })
