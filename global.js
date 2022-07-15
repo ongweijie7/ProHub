@@ -9,7 +9,7 @@ const db = getFirestore(firebaseApp);
 
 global.coins = 0;
 global.username = "";
-global.email = "hello" //used to access the respective collection
+global.email = "hello"; //used to access the respective collection
 global.leaderboard = [];
 global.friends = [];
 global.level = 1;

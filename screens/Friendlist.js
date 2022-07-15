@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+
 import { Text, View, TextInput, TouchableOpacity, Image, ScrollView, StyleSheet } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 
@@ -30,9 +31,11 @@ const Friendlist = (props) => {
                 <View style={{flexDirection: 'column'}}>
                     <Text style={{fontSize: 16}}>Friend Requests</Text>
                     <Text style={{opacity: 0.5}}>Approve or ignore requests</Text> 
+
                 </View>
-                
+
             </TouchableOpacity>
+
 
             <View style={styles.line}/>
 
@@ -61,11 +64,12 @@ const Friendlist = (props) => {
                   )
               })
               }
+
             </ScrollView>
 
-            
+
         </View>
-    )
+    );
 }
 
 export default Friendlist;
@@ -111,3 +115,4 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     }
   })
+
