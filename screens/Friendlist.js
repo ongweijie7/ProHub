@@ -1,17 +1,20 @@
 import React, {useState} from 'react';
-
 import { Text, View, TextInput, TouchableOpacity, Image, ScrollView, StyleSheet } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
+import { addUser } from '../Firebasebackend/Friends';
 
 // add/manage/view friends
 const Friendlist = (props) => {
     const [email, setemail] = useState("");
 
+    const addFriends = () => {
+        addUser(email);
+    }
+
     return (
         <View style={styles.container}>
             <View style={{marginBottom: 20}}>
                 {/* ADD Friends button */}
-                <TouchableOpacity onPress={() => {}}>
+                <TouchableOpacity onPress={addFriends}>
                     <Text style={{color: '#00a2ec', fontWeight: 'bold'}}>ADD FRIENDS</Text>
                 </TouchableOpacity>
                 <TextInput 

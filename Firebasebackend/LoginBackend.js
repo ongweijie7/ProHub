@@ -2,7 +2,6 @@ import { firebaseApp } from "../firebase.config";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
 import global from '../global';
-import LeaderBoard from "../screens/Leaderboard";
 
 
 //initialising database
@@ -18,6 +17,7 @@ export default async function SignIn(email) {
             global.leaderboard = docSnap.data().leaderboard; 
             global.friends = docSnap.data().friends;
             global.level = docSnap.data().level;
+            global.friendemails = docSnap.data().friendemails;
         } else {
             console.log("no such document")
         }

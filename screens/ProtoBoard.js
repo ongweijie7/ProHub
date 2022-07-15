@@ -14,17 +14,13 @@ const db = getFirestore(firebaseApp);
 
 const ProtoBoard = ({ navigation }) => {
 
-let [ranppl, setranppl] = useState([{name: 'Howard', coins: 1000},
-                                    {name: 'Stark', coins: 999},
-                                    {name: 'Tony', coins: 832},
-                                    {name: 'Zoro', coins: 754},
-                                    {name: 'Juro', coins: 611},
-                                    {name: 'Rogers', coins: 459},
-                                    {name: 'Riley', coins: 300},
-                                    {name: 'Luffy', coins: 250},
-                                    {name: 'Reid', coins: 198},
-                                    {name: 'Face', coins: 60},
+let [ranppl, setranppl] = useState([{name: 'Howard', level: 1000},
+                                    {name: 'Stark', level: 999},
+                                    {name: 'Tony', level: 832},
                                     ])
+
+  console.log(global.email);
+  //this line has issues
 
   const docref = doc(db, "Users", global.email);
 
@@ -38,6 +34,7 @@ let [ranppl, setranppl] = useState([{name: 'Howard', coins: 1000},
           }
       }).then(() => {
           setranppl(leaderboard);
+          console.log(leaderboard)
       });
   }, []);
 
@@ -68,7 +65,7 @@ let [ranppl, setranppl] = useState([{name: 'Howard', coins: 1000},
               {/* User Info */}
               <Text style={{alignSelf: 'center', color: "white", fontSize: 24, fontWeight: '600'}}>{global.username}</Text>
               <View style={{flexDirection: 'row', alignSelf: 'center'}}>
-                <Text style={{color: "white", opacity: 0.5, fontSize: 14, paddingHorizontal: 5}}>{global.coins}</Text>
+                <Text style={{color: "white", opacity: 0.5, fontSize: 14, paddingHorizontal: 5}}>{global.level}</Text>
                 <MaterialCommunityIcons name="star-four-points" size={14} color="white" style={{marginTop: 4, opacity: 0.5}}/>
               </View>
               

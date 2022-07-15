@@ -13,32 +13,6 @@ const db = getFirestore(firebaseApp);
 //     console.log("changes are made");
 // });
 
-{/*Query for a valid user and then add it to the current user's friend arr*/}
-const addUser = (email) => {
-    const docref = doc(db, "Users", email);
-    getDoc(docref).then((snapshot) => {
-        if (snapshot.exists()) {
-            const arr = snapshot.data().friends;
-            const arr1 = global.friends;
-            console.log(arr1);
-            arr.push({name: global.email, coins: global.coins});
-            arr1.push({name: email, coins: 1000});
-            console.log(arr1)
-            updateDoc(docref, {
-                friends: arr,
-            })
-            updateDoc(doc(db, "Users", global.email), {
-                friends: arr1,
-            })
-        } else {
-            alert("User does not seem to exist! Please enter a valid user email");
-        }
-        
-    }).catch((error) => {
-        console.log(error.message);
-    })
-}
-
 {/*Update the different leaderboards of user's friends*/}
 const updateLeaderboards = (level) => {
     const docref = doc(db, "Users", global.email);
@@ -54,4 +28,4 @@ const updateLeaderboards = (level) => {
     })
 }
 
-export { addUser, updateLeaderboards };
+export { updateLeaderboards };

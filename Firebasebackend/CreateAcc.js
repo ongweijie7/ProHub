@@ -22,6 +22,7 @@ export default function CreateAcc(email, name) {
         leaderboard: [],
         friends: [], 
         level: 1,
+        friendemails: [],
     });
 }
 

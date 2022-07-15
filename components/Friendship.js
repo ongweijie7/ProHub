@@ -6,9 +6,9 @@ const Task = (props) => {
     return (
         <View style={styles.item}>
             <View style={styles.itemLeft}>
-                <Text style={{fontSize: 16, fontWeight: '600'}}>{props.friend.name}</Text>
+                <Text style={{fontSize: 16, fontWeight: '600'}}>{props.friend.email}</Text>
                 <View style={{flexDirection: 'row'}}>
-                    <Text style={{fontSize: 14, color: '#B7B7B7', marginRight: 3}}>{props.friend.coins}</Text>
+                    <Text style={{fontSize: 14, color: '#B7B7B7', marginRight: 3}}>{props.friend.level}</Text>
                     <MaterialCommunityIcons name="star-four-points" size={14} color='#B7B7B7' style={{marginTop: 2}}/>
                 </View>
             </View>
