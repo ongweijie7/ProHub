@@ -25,9 +25,6 @@ let [ranppl, setranppl] = useState([{name: 'Howard', coins: 1000},
                                     {name: 'Face', coins: 60},
                                     ])
 
-  console.log(global.email);
-  //this line has issues
-
   const docref = doc(db, "Users", global.email);
 
     useEffect(() => {
