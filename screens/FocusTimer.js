@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity } from 'rea
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
 import { color } from 'react-native-reanimated';
 
+import { FontAwesome } from '@expo/vector-icons';
+
 import CustomModal  from '../components/CustomModal';
 import global from '../global';
 
@@ -16,6 +18,9 @@ export default function FocusTimer() {
   
   const [hours, setHours] = useState("");
   const [minutes, setMinutes] = useState("");
+
+  const [started, setStarted] = useState(false);
+  const [paused, setPaused] = useState(false);
 
   const submit = () => {
     setKey(prevKey => prevKey + 1);
@@ -64,13 +69,17 @@ export default function FocusTimer() {
     if (duration > 0) {
       setCoins(true);
       setIsPlaying(true);
+      setStarted(true);
     }
-    
+    if (started) {
+      setPaused(false);
+    }
   }
 
   const stopTimer = () => {
     setCoins(false);
     setIsPlaying(false);
+    setPaused(!paused);
   }
 
   const resetTimer = () => {
@@ -80,65 +89,118 @@ export default function FocusTimer() {
     setHours(0);
     setMinutes(0);
     setDuration(-1);
+    setStarted(false);
   }
 
 
   const changeToHours = (seconds) => {
-    return Math.floor(seconds/3600);
+    let display = Math.floor(seconds/3600);
+    if (display === 0) {
+      display = "00";
+    } else if (display <10) {
+      display = "0" + display;
+    }
+    return display;
   }
 
   const changeToMinutes = (seconds) => {
-    return Math.floor((seconds % 3600) / 60);
+    let display = Math.floor((seconds % 3600) / 60);
+    if (display === 0) {
+      display = "00";
+    } else if (display <10) {
+      display = "0" + display;
+    }
+    return display;
   }
 
   const changeToSeconds = (seconds) => {
-    return seconds%60;
+    let display = seconds%60;
+    if (display === 0) {
+      display = "00";
+    } else if (display <10) {
+      display = "0" + display;
+    }
+    return display;
   }
 
 
   return (    
     <View style={styles.container}>
-      <TextInput value={duration} onChangeText={setDuration} keyboardType='numeric'></TextInput>
+      <View>
+          <TextInput value={duration} onChangeText={setDuration} keyboardType='numeric'></TextInput>
       
-      <CountdownCircleTimer
-        isPlaying={isPlaying}
-        duration={duration}
-        colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
-        colorsTime={[10, 6, 3, 0]}
-        onComplete={timerFinish}
-        size={350}
-        key={key}
-      >
-      {({ remainingTime, color }) => (
-        <TouchableOpacity onPress={() => setModalOpen(true)}>
-          
-          { duration == -1
-          ? <View><Text style={{ color, fontSize: 40 }}>Start FOCUSING!!</Text></View>
-          : (<View style={{flexDirection:'row', alignItems:'center'}}>
-            {duration >= 3600
-            ? <Text style={{ color, fontSize: 40 }}>
-              {changeToHours(remainingTime)}:
-            </Text>
-            :<Text></Text>}
-            {duration >= 60
-            ? <Text style={{ color, fontSize: 40 }}>
-              {changeToMinutes(remainingTime)}:
-            </Text>
-            :<Text></Text>}
-            <Text style={{ color, fontSize: 40 }}>
-              {changeToSeconds(remainingTime)} 
-            </Text>
-          </View>)}
-        </TouchableOpacity>
-           
-      )}
-    </CountdownCircleTimer>
-    <View style={{flexDirection:'row', justifyContent:'space-evenly'}}>
-      <View style={styles.buttons}><Button title={'Start'} onPress={startTimer}/></View>
-      <View style={styles.buttons}><Button title={'Stop'} onPress={stopTimer}/></View>
-    </View>
+          <CountdownCircleTimer
+            isPlaying={isPlaying}
+            duration={duration}
+            colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
+            colorsTime={[10, 6, 3, 0]}
+            onComplete={timerFinish}
+            size={280}
+            key={key}
+          >
+          {({ remainingTime, color }) => (
+            <TouchableOpacity onPress={() => setModalOpen(true)}>
+              
+              { duration == -1
+              ? <View><Text style={{ color, fontSize: 32}}>00 : 00 : 00</Text></View>
+              : (<View style={{flexDirection:'row', alignItems:'center'}}>
+                {duration >= 3600
+                ? <Text style={{ color, fontSize: 32 }}>
+                  {changeToHours(remainingTime)} :
+                </Text>
+                :<Text></Text>}
+                {duration >= 60
+                ? <Text style={{ color, fontSize: 32 }}>
+                  {" " + changeToMinutes(remainingTime) + " :"}
+                </Text>
+                :<Text></Text>}
+                <Text style={{ color, fontSize: 32 }}>
+                  {" " + changeToSeconds(remainingTime)} 
+                </Text>
+              </View>)}
+            </TouchableOpacity>
+              
+          )}
+          </CountdownCircleTimer>
+      </View>
 
-    <View><Button title={"Reset"} onPress={resetTimer}/></View>
+    {
+      started ? //timer has been started is true
+              <View style={styles.pauseWrapper}>
+                {paused ?
+                  <View style={{flexDirection:'column'}}>
+                    <TouchableOpacity onPress={startTimer} style={styles.pause}>
+                      <FontAwesome name="play" size={18} color="#999999" />
+                    </TouchableOpacity>
+                    <Text style={{alignSelf: 'center'}}>Resume</Text>
+                  </View>
+                  :
+                  <View style={{flexDirection:'column'}}>
+                    <TouchableOpacity onPress={stopTimer} style={styles.pause}>
+                      <FontAwesome name="pause" size={18} color="#999999" />
+                    </TouchableOpacity>
+                    <Text style={{alignSelf: 'center'}}>Pause</Text>
+                  </View>
+                } 
+
+                <View style={{flexDirection:'column'}}>
+                  <TouchableOpacity onPress={resetTimer} style={styles.pause}>
+                  <FontAwesome name="stop" size={18} color="#999999" />
+                  </TouchableOpacity>
+                  <Text  style={{alignSelf: 'center'}}>Reset</Text>
+                </View>
+              </View>
+              : //timer has been started is false
+              <View style={{flexDirection: 'column', top: 25}}>
+                <TouchableOpacity onPress={startTimer} style={styles.start}>
+                  <Text style={styles.buttonText}>Start</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={resetTimer}>
+                  <Text style={{alignSelf: 'center', padding: 20, fontSize: 18}}>Reset</Text>
+                </TouchableOpacity>
+              </View>
+
+    }
 
     <CustomModal open={modalOpen} onPress={closeModal} hours={hours} setHours={(number) => {setHours( number )}}
       minutes={minutes} setMinutes={(number) => setMinutes( number )} onSubmit={submit}/>
@@ -152,8 +214,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    
-    backgroundColor: 'aliceblue',
+    backgroundColor: 'white',
     padding: 8,
   },
   buttons: {
@@ -162,4 +223,31 @@ const styles = StyleSheet.create({
     wdith:30,
     
   },
+  start: {
+    backgroundColor: '#E9E9FF',
+    width: 295,
+    height: 60,
+    borderRadius: 8,
+    justifyContent: 'center',
+    marginTop: 10
+  },
+  buttonText: {
+    alignSelf: 'center', 
+    fontWeight: '600', 
+    fontSize: 18
+  },
+  pause: {
+    backgroundColor: '#E9E9FF',
+    height: 60,
+    width: 60,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  pauseWrapper: {
+    flexDirection: 'row',
+    width: 360,
+    justifyContent: 'space-around',
+    marginTop:55
+  }
 });
