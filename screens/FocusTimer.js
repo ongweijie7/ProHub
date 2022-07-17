@@ -14,7 +14,7 @@ export default function FocusTimer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [coins, setCoins] = useState(false);
-  const [duration, setDuration] = useState(-1);
+  const [duration, setDuration] = useState('-1');
   
   const [hours, setHours] = useState("");
   const [minutes, setMinutes] = useState("");
@@ -44,10 +44,10 @@ export default function FocusTimer() {
     }
 
     if (duration1 > 0) {
-      return setDuration(duration1);
+      return setDuration(duration1.toString());
     }
 
-    return setDuration(-1);
+    return setDuration('-1');
 
     
   }
@@ -88,8 +88,9 @@ export default function FocusTimer() {
     setKey(prevKey => prevKey + 1);
     setHours(0);
     setMinutes(0);
-    setDuration(-1);
+    setDuration('-1');
     setStarted(false);
+    setPaused(false);
   }
 
 
@@ -127,7 +128,7 @@ export default function FocusTimer() {
   return (    
     <View style={styles.container}>
       <View>
-          <TextInput value={duration} onChangeText={setDuration} keyboardType='numeric'></TextInput>
+          <TextInput value={duration} onChangeText={setDuration} keyboardType='numeric' style={{color: 'white'}}/>
       
           <CountdownCircleTimer
             isPlaying={isPlaying}
