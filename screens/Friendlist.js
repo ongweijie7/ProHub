@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import { Text, View, TextInput, TouchableOpacity, Image, ScrollView, StyleSheet } from 'react-native';
-import { addUser } from '../Firebasebackend/Friends';
+import { acceptReq, sendReq } from '../Firebasebackend/Friends';
 
 // add/manage/view friends
 const Friendlist = (props) => {
     const [email, setemail] = useState("");
 
     const addFriends = () => {
-        addUser(email);
+        sendReq(email);
     }
 
     return (

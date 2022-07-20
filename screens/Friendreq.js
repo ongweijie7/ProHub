@@ -1,24 +1,46 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, TextInput, TouchableOpacity, Image, ScrollView, StyleSheet } from 'react-native';
+import { acceptReq, deleteReq } from '../Firebasebackend/Friends';
+
+import { firebaseApp } from "../firebase.config";
+import { doc, getDoc } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
+
+//initialising database
+const db = getFirestore(firebaseApp);
 
 const Friendreq = () => {
-    const [friends, setFriends] = useState([{name: 'Howard'},
-                                            {name: 'Stark'},
-                                            {name: 'Tony'},
-                                            {name: 'Zoro'},
-                                            {name: 'Juro'},
-                                            {name: 'Rogers'},
-                                            {name: 'Riley'},
-                                            {name: 'Luffy'},
-                                            {name: 'Reid'},
-                                            {name: 'Face'},
-                                            ]);
+    const [friends, setfriends] = useState(['Howard',
+                                            'Stark',
+                                            'Tony',]);
+
+    useEffect(() => {
+        let requests = ["hello"];
+        const docref = doc(db, "Users", global.email);
+        getDoc(docref).then((snapshot) => {
+            if (snapshot.exists()) {
+                requests = snapshot.data().requests;
+            } else {
+                console.log("no such document");
+            }
+        }).then(() => {
+            setfriends(requests);
+            
+        });
+    }, []);                                        
+
+    const add = (index) => {
+        const email = friends[index];
+        acceptReq(email);
+        del(index);
+    }
 
     // delete item from array when done
     const del = (index) => {
         let copy = [...friends];
         copy.splice(index, 1);
-        setFriends(copy);
+        setfriends(copy);
+        deleteReq(friends[index]);
     }            
 
     return (
@@ -32,7 +54,7 @@ const Friendreq = () => {
                     style={{height: 50, width: 50, borderRadius: 25}}
                     />
                     <View style={{flexDirection: 'column', padding:10}}>
-                       <Text style={{fontSize: 16}}>{friend.name}</Text> 
+                       <Text style={{fontSize: 16}}>{friend}</Text> 
                        {/* Optional if want to display email address as well update array */}
                         <Text style={{opacity: 0.5}}>@rileyreid</Text> 
                     </View>
@@ -40,11 +62,11 @@ const Friendreq = () => {
                 
                     {/* Confirm/delete friend button */}
                     <View style={{flexDirection: 'row'}}>
-                        <TouchableOpacity onPress={del} style={styles.confirm}>
+                        <TouchableOpacity onPress={() => add(index)} style={styles.confirm}>
                             <Text style={{alignSelf:'center', color: 'white'}}>Confirm</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={del} style={styles.remove}>
+                        <TouchableOpacity onPress={() => del(index)} style={styles.remove}>
                             <Text style={{alignSelf:'center'}}>Remove</Text>
                         </TouchableOpacity>                        
                     </View>

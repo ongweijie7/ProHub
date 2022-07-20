@@ -34,7 +34,6 @@ let [ranppl, setranppl] = useState([{name: 'Howard', level: 1000},
           }
       }).then(() => {
           setranppl(leaderboard);
-          console.log(leaderboard)
       });
   }, []);
 
