@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 
 import Reminders from '../screens/Reminders';
-import LeaderBoard from '../screens/Leaderboard';
+import LeaderBoard from '../screens/Fakeboard';
 import Todo from '../screens/Todo';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';

@@ -18,6 +18,7 @@ export default async function SignIn(email) {
             global.friends = docSnap.data().friends;
             global.level = docSnap.data().level;
             global.friendemails = docSnap.data().friendemails;
+            global.activities = docSnap.data().activities;
         } else {
             console.log("no such document")
         }

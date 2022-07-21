@@ -19,10 +19,11 @@ export default function CreateAcc(email, name) {
         coins: 0,
         name: name,
         email: email,
+        level: 1,
         leaderboard: [],
         friends: [], 
-        level: 1,
         friendemails: [],
+        activities: [],
     });
 }
 
