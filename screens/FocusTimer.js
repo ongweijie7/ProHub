@@ -132,7 +132,7 @@ export default function FocusTimer() {
       
           <CountdownCircleTimer
             isPlaying={isPlaying}
-            duration={duration}
+            duration={parseInt(duration)}
             colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
             colorsTime={[10, 6, 3, 0]}
             onComplete={timerFinish}
@@ -143,7 +143,7 @@ export default function FocusTimer() {
             <TouchableOpacity onPress={() => setModalOpen(true)}>
               
               { duration == -1
-              ? <View><Text style={{ color, fontSize: 32}}>00 : 00 : 00</Text></View>
+              ? <View><Text style={{ color, fontSize: 32}}>Tap to Start</Text></View>
               : (<View style={{flexDirection:'row', alignItems:'center'}}>
                 {duration >= 3600
                 ? <Text style={{ color, fontSize: 32 }}>
