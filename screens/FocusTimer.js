@@ -8,6 +8,8 @@ import { FontAwesome } from '@expo/vector-icons';
 import CustomModal  from '../components/CustomModal';
 import global from '../global';
 
+import { UpdateActivities } from '../Firebasebackend/UpdateActivities';
+
 
 export default function FocusTimer() {
   const [key, setKey] = useState(0);
@@ -60,6 +62,7 @@ export default function FocusTimer() {
     if (coins) {
       global.coins += 10;
       alert("GOOD JOB!! Here are your coins")
+      UpdateActivities(hours, minutes);
       return { shouldRepeat: false }
     }
     
