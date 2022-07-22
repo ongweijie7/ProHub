@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import { Text, View, ScrollView, TouchableOpacity, ImageBackground, Image, StyleSheet} from 'react-native';
+import { Text, View, ScrollView, TouchableOpacity, ImageBackground, Image, StyleSheet, Modal} from 'react-native';
 import Friends from '../components/Friendship';
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import global from '../global';
+import Dialog, {  DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 
 import { firebaseApp } from "../firebase.config";
 import { doc, getDoc } from "firebase/firestore";
@@ -13,11 +14,42 @@ import { getFirestore } from "firebase/firestore";
 const db = getFirestore(firebaseApp);
 
 const ProtoBoard = ({ navigation }) => {
-
+  
 let [ranppl, setranppl] = useState([{name: 'Howard', level: 1000},
                                     {name: 'Stark', level: 999},
                                     {name: 'Tony', level: 832},
-                                    ])
+                                    ]);
+                                    
+const [modalOpen, setModalOpen] = useState(false);    
+// which friend activity to display
+const [display, setDisplay] = useState(0);                                
+//activities for a single peron
+let activities = ["lvl up to level 30",
+                  "focused for 10 000 000 hours",
+                  "lvl up to level 35",
+                  "lvl up to level 20",
+                  "lvl up to level 21",
+                  ]
+
+// or put activities as an element of each friend object
+let activities2 = [{name: 'Howard', level: 1000, 
+                    activity: ["lvl up to level 30",
+                                "lvl up to level 31",
+                                "lvl up to level 35",
+                                "lvl up to level 20",
+                                "lvl up to level 21",]
+                  },
+                  {name: 'Jack', level: 1000, 
+                  activity: ["lvl up to level 0",
+                              "lvl up to level 1",
+                              "lvl up to level 5",
+                              "lvl up to level 0",
+                              "lvl up to level 1",]
+                  }];
+  const openModal = (index) => {
+    setModalOpen(true);
+    setDisplay(index);
+  }
 
   const docref = doc(db, "Users", global.email);
   
@@ -72,14 +104,39 @@ let [ranppl, setranppl] = useState([{name: 'Howard', level: 1000},
           <ScrollView style={{marginTop: -50}}>
               {ranppl.map((friend, index) => {
                   return(
-                      // open popup maybe?
-                      <TouchableOpacity key={index} onPress={() => {}}>
+                      <TouchableOpacity key={index} onPress={() => openModal(index)}>
                           <Friends friend={friend} index={index}/>
                       </TouchableOpacity>
                   )
               })
               }
           </ScrollView>
+          
+          <Dialog
+            visible={modalOpen}
+            footer={
+              <DialogFooter>
+                <DialogButton
+                  text="Close"
+                  onPress={() => setModalOpen(false)}
+                />
+              </DialogFooter>
+            }
+            dialogTitle={<DialogTitle title="Recent Activity" />}
+          >
+            <DialogContent style={{width: 300}}>
+                <View style={{marginTop: 20}}>
+                  {/* pass in recent activity arr here */}
+                  {/*activities.map((item, index) or {activities2[display].activity.map((item, index)...*/}
+                  {activities2[display].activity.map((item, index) => {
+                      return(
+                        <Text key={index} style={{padding: 10, alignSelf: 'center'}}>{item}</Text>
+                      )
+                  })
+                  }
+                </View>
+            </DialogContent>
+          </Dialog>
       </View>
   )
 }
