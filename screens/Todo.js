@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import { ScrollView, StyleSheet, Text, View ,KeyboardAvoidingView, TextInput, TouchableOpacity} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import Task from '../components/Task';
 import DoneTask from '../components/DoneTask';
@@ -22,7 +22,7 @@ const Todo = ({navigation}) => {
   const [taskItems, setTaskItems] = useState([])
   const [doneItems, setDoneItems] = useState([])
   const [todoTab, setTodoTab] = useState(1);
-  const [coins, setCoins] = useState(global.coins);
+  const [coins, setCoins] = useState(global.XP);
   
   let email = global.email;
   
@@ -105,7 +105,7 @@ const Todo = ({navigation}) => {
     itemsCopy.splice(index, 1);
     setTaskItems(itemsCopy);
     global.updateCoins(10);
-    setCoins(global.coins);
+    setCoins(global.XP);
   }
 
   const deleteDone = (index) => {
@@ -126,9 +126,9 @@ const Todo = ({navigation}) => {
           {/*Open up buy fish pg instead*/}
           <TouchableOpacity onPress={() => navigation.openDrawer()}>
             <View style={styles.coinButton}>
-              <Text style={styles.coin}>{coins} Coins </Text>
+              <Text style={styles.coin}>{coins} XP </Text>
 
-              <FontAwesome5 name="coins" size={14} color="gold" />
+              <MaterialCommunityIcons name="star-four-points" size={14} color="gold" />
             </View>
           </TouchableOpacity>
 

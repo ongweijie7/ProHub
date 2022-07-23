@@ -8,7 +8,7 @@ const db = getFirestore(firebaseApp);
 
 {/*creating User document*/}
 export default function CreateAcc(email, name) {
-    global.coins = 0;
+    global.XP = 0;
     global.email = email;
     global.username = name;
     global.leaderboard = [];

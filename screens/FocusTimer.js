@@ -60,7 +60,7 @@ export default function FocusTimer() {
 
   const timerFinish = () => {
     if (coins) {
-      global.coins += 10;
+      global.XP += 10;
       alert("GOOD JOB!! Here are your coins")
       UpdateActivities(hours, minutes);
       return { shouldRepeat: false }

@@ -13,7 +13,7 @@ export default async function SignIn(email) {
         if (docSnap.exists()) {
             global.email = email;
             global.username = docSnap.data().name;
-            global.coins = docSnap.data().coins;
+            global.XP = docSnap.data().coins;
             global.leaderboard = docSnap.data().leaderboard; 
             global.friends = docSnap.data().friends;
             global.level = docSnap.data().level;

@@ -24,8 +24,7 @@ const Friendreq = () => {
                 console.log("no such document");
             }
         }).then(() => {
-            setfriends(requests);
-            
+            setfriends(requests);      
         });
     }, []);                                        
 

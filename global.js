@@ -3,12 +3,13 @@ import { firebaseApp } from "./firebase.config";
 import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
 import { UpdateLevel } from './Firebasebackend/UpdateLevel';
+import { refresh } from './screens/Leaderboard';
 
 
 //initialising database
 const db = getFirestore(firebaseApp);
 
-global.coins = 0;
+global.XP = 0;
 global.username = "";
 global.email = "hello"; //used to access the respective collection
 global.leaderboard = [];
@@ -23,24 +24,23 @@ const fullexp = (Math.floor(global.level / 10) + 1) * 50;
 global.updateCoins = (amount) => {
     const docref = doc(db, "Users", global.email);
     
-    global.coins += amount;
-    if (global.coins >= fullexp) {
-        global.coins -= fullexp;
-        let temp = global.level;
-        temp++;
-        global.level = temp;
+    global.XP += amount;
+    if (global.XP >= fullexp) {
+        global.XP -= fullexp;
+        global.level++;
         console.log(global.level);
+        refresh();
         UpdateLevel();
         
     }
     updateDoc(docref, {
-        coins: global.coins,
+        coins: global.XP,
         level: global.level,
     })
 }
 
 global.signOut = () => {
-    global.coins = 0;
+    global.XP = 0;
     global.username = "";
     global.email = "hello"; //used to access the respective collection
     global.leaderboard = [];

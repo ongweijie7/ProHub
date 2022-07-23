@@ -16,8 +16,8 @@ const acceptReq = (email) => {
         const current = global.friends;
         
         //updating arr with friends' data
-        const currentObject = {email: global.email, level: global.level, name: snapshot.data().name};
-        const givenObject = {email: snapshot.data().email, level: snapshot.data().level, name: snapshot.data().name};
+        const currentObject = {email: global.email, level: global.level, name: global.username, activities: global.activities};
+        const givenObject = {email: snapshot.data().email, level: snapshot.data().level, name: snapshot.data().name, activities: snapshot.data().activities};
         given.push(currentObject);
         current.push(givenObject);
 
@@ -31,6 +31,7 @@ const acceptReq = (email) => {
         updateDoc(docref, {
             requests: arrayRemove(email),
         })
+        
 
         //update friend list of given email
         updateDoc(docref, {

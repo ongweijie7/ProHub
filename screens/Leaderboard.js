@@ -13,39 +13,25 @@ import { getFirestore } from "firebase/firestore";
 //initialising database
 const db = getFirestore(firebaseApp);
 
+let refresh;
+
 const ProtoBoard = ({ navigation }) => {
-  
-let [ranppl, setranppl] = useState([{name: 'Howard', level: 1000},
-                                    {name: 'Stark', level: 999},
-                                    {name: 'Tony', level: 832},
-                                    ]);
+
+  const [count, setCount] = useState(0);
+
+  refresh = () => {
+    console.log('hello');
+    setCount((prev) => prev++);
+    console.log(count);
+  }
+
+//get 
+let [ranppl, setranppl] = useState([{name: 'Howard', level: 1000, activities: []},]);
                                     
 const [modalOpen, setModalOpen] = useState(false);    
 // which friend activity to display
 const [display, setDisplay] = useState(0);                                
-//activities for a single peron
-let activities = ["lvl up to level 30",
-                  "focused for 10 000 000 hours",
-                  "lvl up to level 35",
-                  "lvl up to level 20",
-                  "lvl up to level 21",
-                  ]
-
-// or put activities as an element of each friend object
-let activities2 = [{name: 'Howard', level: 1000, 
-                    activity: ["lvl up to level 30",
-                                "lvl up to level 31",
-                                "lvl up to level 35",
-                                "lvl up to level 20",
-                                "lvl up to level 21",]
-                  },
-                  {name: 'Jack', level: 1000, 
-                  activity: ["lvl up to level 0",
-                              "lvl up to level 1",
-                              "lvl up to level 5",
-                              "lvl up to level 0",
-                              "lvl up to level 1",]
-                  }];
+                  
   const openModal = (index) => {
     setModalOpen(true);
     setDisplay(index);
@@ -55,7 +41,7 @@ let activities2 = [{name: 'Howard', level: 1000,
   
 
   useEffect(() => {
-    let leaderboard = [];
+    let leaderboard = [{name: 'Howard', level: 1000, activities: []}];
     getDoc(docref).then((snapshot) => {
         if (snapshot.exists()) {
             leaderboard = snapshot.data().friends;
@@ -63,10 +49,10 @@ let activities2 = [{name: 'Howard', level: 1000,
             console.log("no such document");
         }
     }).then(() => {
-      console.log("ok found it");
+        console.log(leaderboard);
         setranppl(leaderboard);
     });
-  }, [global.friends, global.level]);
+  }, [global.level, count]);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -95,7 +81,7 @@ let activities2 = [{name: 'Howard', level: 1000,
               {/* User Info */}
               <Text style={{alignSelf: 'center', color: "white", fontSize: 24, fontWeight: '600'}}>{global.username}</Text>
               <View style={{flexDirection: 'row', alignSelf: 'center'}}>
-                <Text style={{color: "white", opacity: 0.5, fontSize: 14, paddingHorizontal: 5}}>{global.level}</Text>
+                <Text style={{color: "white", opacity: 0.5, fontSize: 14, paddingHorizontal: 5}}>{global.XP}</Text>
                 <MaterialCommunityIcons name="star-four-points" size={14} color="white" style={{marginTop: 4, opacity: 0.5}}/>
               </View>
               
@@ -128,7 +114,7 @@ let activities2 = [{name: 'Howard', level: 1000,
                 <View style={{marginTop: 20}}>
                   {/* pass in recent activity arr here */}
                   {/*activities.map((item, index) or {activities2[display].activity.map((item, index)...*/}
-                  {activities2[display].activity.map((item, index) => {
+                  {ranppl[display].activities.map((item, index) => {
                       return(
                         <Text key={index} style={{padding: 10, alignSelf: 'center'}}>{item}</Text>
                       )
@@ -140,6 +126,8 @@ let activities2 = [{name: 'Howard', level: 1000,
       </View>
   )
 }
+
+export { refresh };
 
 export default ProtoBoard;
 

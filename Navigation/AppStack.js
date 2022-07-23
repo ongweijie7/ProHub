@@ -28,11 +28,6 @@ const AppStack = () => {
                 },
             }}>
               
-            {/* <Drawer.Screen name="LeaderBoard" component={LeaderBoard} options={{
-                drawerIcon: ({color}) => (
-                    <MaterialIcons name="leaderboard" size={24} color={color} />
-                )
-            }}/> */}
             {/* Prototype leaderboard */}
             <Drawer.Screen name="LeaderBoard" component={LeaderBoard} options={{
                 drawerIcon: ({color}) => (

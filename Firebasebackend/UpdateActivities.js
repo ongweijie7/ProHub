@@ -5,13 +5,15 @@ import { getFirestore } from "firebase/firestore";
 //initialising database
 const db = getFirestore(firebaseApp);
 
-const UpdateActivities = (hours, minutes) => {
+const UpdateActivities = async (hours, minutes) => {
     const docref = doc(db, "Users", global.email);
 
     const act = `${global.username} just focused for ${hours} hours and ${minutes} minutes!!`
 
+    let currentAct;
+
     getDoc(docref).then((ss) => {
-        const currentAct = ss.data().activities;
+        currentAct = ss.data().activities;
 
         if (currentAct.length > 5) {
             currentAct.pop();
@@ -25,6 +27,22 @@ const UpdateActivities = (hours, minutes) => {
         })
     })
 
+    const q = query(collection(db, "Users"), where("friendemails", "array-contains", global.email));
+    const qSnapShot = await getDocs(q);
+    qSnapShot.forEach((doc1) => {
+        const userEmail = doc1.data().email;
+        const docref = doc(db, "Users", userEmail);
+        getDoc(docref).then((ss) => {
+            const friendsarr = ss.data().friends;
+            let user = friendsarr.find(item => item.email === global.email);
+            user.activities = currentAct;
+            updateDoc(docref, {
+                friends : friendsarr,
+            })
+
+        })
+
+    })
 }
 
 export { UpdateActivities };

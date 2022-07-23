@@ -7,7 +7,19 @@ const Friendlist = (props) => {
     const [email, setemail] = useState("");
 
     const addFriends = () => {
-        sendReq(email);
+        if (email === ""){
+            alert("Please enter an email");
+        } else {
+            sendReq(email);
+        }
+
+    }
+
+    //global.friends is an array of friend objects
+    
+
+    const removeFriend = () => {
+
     }
 
     return (
@@ -60,7 +72,7 @@ const Friendlist = (props) => {
                         </View>
                         
                             {/* Remove friend button */}
-                          <TouchableOpacity onPress={() => {}} style={styles.remove}>
+                          <TouchableOpacity onPress={removeFriend} style={styles.remove}>
                             <Text style={{alignSelf:'center'}}>Remove</Text>
                           </TouchableOpacity>
                     </View>                         

@@ -45,7 +45,7 @@ const CustomDrawer = (props) => {
 
                 <Text style={{fontSize: 18, color: 'white'}}>{global.username}</Text>
                 <View style={{flexDirection: 'row'}}>
-                    <Text style={{color: 'white'}}>{global.coins} Coins </Text>
+                    <Text style={{color: 'white'}}>{global.XP} XP </Text>
                     <MaterialCommunityIcons name="star-four-points" size={14} color="white" />
                 </View>
                 </ImageBackground>
