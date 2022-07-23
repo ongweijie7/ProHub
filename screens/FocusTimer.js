@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity, AppState } from 'react-native';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
-import { color } from 'react-native-reanimated';
-
 import { FontAwesome } from '@expo/vector-icons';
-
 import CustomModal  from '../components/CustomModal';
 import global from '../global';
 
 import { UpdateActivities } from '../Firebasebackend/UpdateActivities';
+import { set } from 'react-native-reanimated';
 
+let freezeTimer;
 
 export default function FocusTimer() {
   const [key, setKey] = useState(0);
@@ -23,6 +22,18 @@ export default function FocusTimer() {
 
   const [started, setStarted] = useState(false);
   const [paused, setPaused] = useState(false);
+
+  const [wasRunning, setWasRunning] = useState(false);
+
+  {/*Checks if the timer is running*/}
+  freezeTimer = () => {
+    if (isPlaying) {
+      setIsPlaying(false);
+      setWasRunning(true);
+      setPaused(true);
+      console.log("freezing rn");
+    } 
+  }
 
   const submit = () => {
     setKey(prevKey => prevKey + 1);
@@ -255,3 +266,5 @@ const styles = StyleSheet.create({
     marginTop:55
   }
 });
+
+export { freezeTimer };

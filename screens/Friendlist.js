@@ -18,7 +18,7 @@ const Friendlist = (props) => {
     //global.friends is an array of friend objects
 
     const removeFriend = (email) => {
-        // console.log(email);
+        console.log(email);
     }
 
     return (
@@ -71,7 +71,7 @@ const Friendlist = (props) => {
                         </View>
                         
                             {/* Remove friend button */}
-                          <TouchableOpacity onPress={() => {removeFriend(friend.email)}} style={styles.remove}>
+                          <TouchableOpacity onPress={() => removeFriend(friend.email)} style={styles.remove}>
                             <Text style={{alignSelf:'center'}}>Remove</Text>
                           </TouchableOpacity>
                     </View>                         

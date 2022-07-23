@@ -130,7 +130,7 @@ const Reminders = () => {
         });
 
       // Reset Modal to blank form
-      setItems(newerItems);
+      setItems(newerItems); //
       setModalOpen(false);
       setTitle('');
       setNotes('');
@@ -159,7 +159,7 @@ const Reminders = () => {
       Object.keys(items).forEach((key) => {
         newItems[key] = items[key];
       });
-      setItems(newItems);
+      setItems(newItems); //line need to pass in global.item
     }, 1000);
   };
 
