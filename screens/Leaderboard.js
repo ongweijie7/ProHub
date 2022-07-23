@@ -57,7 +57,7 @@ const [display, setDisplay] = useState(0);
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity onPress={() => navigation.navigate('Activity', {array: ranppl})} style={{marginRight: 10}}>
+        <TouchableOpacity onPress={() => navigation.navigate('Activity', {array: global.friends})} style={{marginRight: 10}}>
           <FontAwesome5 name="user-friends" size={24} color="black" style={{opacity: 0.7}}/>
         </TouchableOpacity>
       ),

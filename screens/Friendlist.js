@@ -16,10 +16,9 @@ const Friendlist = (props) => {
     }
 
     //global.friends is an array of friend objects
-    
 
-    const removeFriend = () => {
-
+    const removeFriend = (email) => {
+        // console.log(email);
     }
 
     return (
@@ -67,12 +66,12 @@ const Friendlist = (props) => {
                             <View style={{flexDirection: 'column', padding:10}}>
                                <Text style={{fontSize: 16}}>{friend.name}</Text> 
                                {/* Optional if want to display email address as well update array */}
-                                <Text style={{opacity: 0.5}}>@rileyreid</Text> 
+                                <Text style={{opacity: 0.5}}>{friend.email}</Text> 
                             </View>
                         </View>
                         
                             {/* Remove friend button */}
-                          <TouchableOpacity onPress={removeFriend} style={styles.remove}>
+                          <TouchableOpacity onPress={() => {removeFriend(friend.email)}} style={styles.remove}>
                             <Text style={{alignSelf:'center'}}>Remove</Text>
                           </TouchableOpacity>
                     </View>                         

@@ -24,6 +24,7 @@ export default function CreateAcc(email, name) {
         friends: [], 
         friendemails: [],
         activities: [],
+        calendar: null,
     });
 }
 

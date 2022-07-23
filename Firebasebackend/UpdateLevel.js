@@ -6,6 +6,10 @@ import { getFirestore } from "firebase/firestore";
 //initialising database
 const db = getFirestore(firebaseApp);
 
+const compare = (a ,b) => {
+    return b.level - a.level;
+}
+
 const UpdateLevel = async () => {
     const docref = doc(db, "Users", global.email);
     let currentlv;
@@ -29,7 +33,8 @@ const UpdateLevel = async () => {
             const friendsarr = ss.data().friends;
             let user = friendsarr.find(item => item.email === global.email);
             user.level = global.level;
-            console.log(user.level);
+            
+            friendsarr.sort(compare);
             updateDoc(docref, {
                 friends : friendsarr,
             })

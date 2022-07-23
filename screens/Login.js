@@ -92,6 +92,7 @@ const Login = ({navigation}) => {
                 console.log("creating account");
             })
             .catch((error) => {
+                alert("This email is already associated with an account");
                 console.log(error.message);
             });
         }
