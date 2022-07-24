@@ -38,14 +38,17 @@ export default function FocusTimer() {
   const submit = () => {
     setKey(prevKey => prevKey + 1);
     let duration1 = 0;
-    if (hours == undefined || minutes == undefined) {
+    console.log(hours);
+    if (hours === ""|| minutes === "") {
       setModalOpen(false);
-      if (hours == undefined && minutes == undefined) {
+      if (hours == "" && minutes == "") {
         alert("please give valid inputs");
-      } else if (minutes == undefined) {
-        duration1 = hours * 60 * 60;
+      } else if (minutes == "") {
+        // duration1 = hours * 60 * 60;
+        alert("please input a value for the minutes field");
       } else {
-        duration1 = minutes * 60;
+        // duration1 = minutes * 60;
+        alert("please input a value for the hours field");
       }
 
     } else {
@@ -70,8 +73,11 @@ export default function FocusTimer() {
   const timerFinish = () => {
     if (coins) {
       global.XP += 10;
-      alert("GOOD JOB!! Here are your coins")
-      UpdateActivities(hours, minutes);
+      const a = parseInt(hours);
+      const b = parseInt(minutes);
+      let xp = a*a*10 + b;
+      alert(`GOOD JOB!! Your have earned ${xp} XP!!`)
+      UpdateActivities(hours, minutes, xp);
       return { shouldRepeat: false }
     }
     

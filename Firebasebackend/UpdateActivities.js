@@ -6,15 +6,10 @@ import global from '../global';
 //initialising database
 const db = getFirestore(firebaseApp);
 
-const UpdateActivities = async (hours, minutes) => {
+const UpdateActivities = async (hours, minutes, coins) => {
     const docref = doc(db, "Users", global.email);
 
     const act = `${global.username} just focused for ${hours} hours and ${minutes} minutes!!`;
-
-    const a = parseInt(hours);
-    const b = parseInt(minutes);
-
-    let coins = a*a*10 + b;
 
     global.updateCoins(coins);
 
