@@ -61,7 +61,6 @@ const Todo = ({navigation}) => {
   {/*removes the task from tobe Completed*/}
   const removeFromToDoCollection = (index) => {
     const TaskName = taskItems[index];
-    console.log(TaskName);
     addToCompletedCollection(TaskName);
     const docRef = doc(db, `Users/${email}/ToDoList`, TaskName);
     deleteDoc(docRef);
@@ -70,7 +69,6 @@ const Todo = ({navigation}) => {
   {/*Removes the task from Done*/}
   const removeDoneCollection = (index) => {
     const TaskName = doneItems[index];
-    console.log(TaskName);
     const docRef = doc(db, `Users/${email}/CompletedToDoList`, TaskName);
     deleteDoc(docRef);
   }

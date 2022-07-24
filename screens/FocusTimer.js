@@ -38,8 +38,6 @@ export default function FocusTimer() {
   const submit = () => {
     setKey(prevKey => prevKey + 1);
     let duration1 = 0;
-    console.log(hours);
-    console.log(minutes);
     if (hours == undefined || minutes == undefined) {
       setModalOpen(false);
       if (hours == undefined && minutes == undefined) {

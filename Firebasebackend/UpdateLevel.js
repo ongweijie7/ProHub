@@ -15,7 +15,6 @@ const UpdateLevel = async () => {
     let currentlv;
     getDoc(docref).then((ss) => {
         currentlv = ss.data().level;
-        console.log(currentlv);
         updateDoc(docref, {
             level: currentlv,
         })
@@ -28,7 +27,6 @@ const UpdateLevel = async () => {
     qSnapShot.forEach((doc1) => {
         const userEmail = doc1.data().email;
         const docref = doc(db, "Users", userEmail);
-        console.log(userEmail);
         getDoc(docref).then((ss) => {
             const friendsarr = ss.data().friends;
             let user = friendsarr.find(item => item.email === global.email);

@@ -20,7 +20,6 @@ const ProtoBoard = ({ navigation }) => {
   const [count, setCount] = useState(0);
 
   refresh = () => {
-    console.log('hello');
     setCount(count + 1);
     console.log(count);
   }

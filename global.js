@@ -19,21 +19,28 @@ global.level = 1;
 global.activities = [] //used for showing recent activities of user
 global.calendar = null //used to keep track of events
 
-const fullexp = (Math.floor(global.level / 10) + 1) * 50;
+
 
 {/*Give exp to user*/}
 global.updateCoins = (amount) => {
     const docref = doc(db, "Users", global.email);
-    
-    global.XP += amount;
-    if (global.XP >= fullexp) {
+    let levelledUp = false;
+    console.log(global.XP);
+    console.log(amount);
+    global.XP = amount + global.XP;
+    console.log(global.XP);
+    let fullexp = (Math.floor(global.level / 10) + 1) * 50;
+    while (global.XP >= fullexp) {
         global.XP -= fullexp;
         global.level++;
-        console.log(global.level);
+        fullexp = (Math.floor(global.level / 10) + 1) * 50;
+        let levelledUp = true;
+    }
+    if (levelledUp) {
         refresh();
         UpdateLevel();
-        
     }
+
     updateDoc(docref, {
         coins: global.XP,
         level: global.level,
