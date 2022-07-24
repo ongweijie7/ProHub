@@ -21,7 +21,7 @@ const ProtoBoard = ({ navigation }) => {
 
   refresh = () => {
     console.log('hello');
-    setCount((prev) => prev++);
+    setCount(count + 1);
     console.log(count);
   }
 
@@ -114,7 +114,7 @@ const [display, setDisplay] = useState(0);
                 <View style={{marginTop: 20}}>
                   {/* pass in recent activity arr here */}
                   {/*activities.map((item, index) or {activities2[display].activity.map((item, index)...*/}
-                  {ranppl[display].activities.map((item, index) => {
+                  {ranppl[display].activities.slice(0, 5).map((item, index) => {
                       return(
                         <Text key={index} style={{padding: 10, alignSelf: 'center'}}>{item}</Text>
                       )
