@@ -87,6 +87,26 @@ const deleteReq = (email) => {
     })
 }
 
+const deleteFriend = (email) => {
+    const docref = doc(db, "Users", global.email);
+
+    getDoc(docref).then((snapshot) => {
+        if (snapshot.exists()) {
+            const friendObjects = snapshot.data().friends;
+            var newArr = friendObjects.filter((object) => object.email !== email);
+            console.log(newArr);    
+            //remove from friends emails array
+            updateDoc(docref, {
+                friendemails: arrayRemove(email),
+                friends: newArr,
+            })
+        } else {
+            alert("User does not seem to exist");
+        }
+    }).catch((error) => {
+        console.log(error.message);
+    });
+}
 
 
-export { acceptReq, sendReq, deleteReq };
+export { acceptReq, sendReq, deleteReq, deleteFriend };

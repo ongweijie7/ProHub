@@ -17,7 +17,7 @@ global.friends = []; //contains information about friends
 global.friendemails = []; //used for querying for friends
 global.level = 1;
 global.activities = [] //used for showing recent activities of user
-global.calendar = [] //used to keep track of events
+global.calendar = null //used to keep track of events
 
 const fullexp = (Math.floor(global.level / 10) + 1) * 50;
 

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { Text, View, TextInput, TouchableOpacity, Image, ScrollView, StyleSheet } from 'react-native';
-import { acceptReq, sendReq } from '../Firebasebackend/Friends';
+import { deleteFriend, sendReq } from '../Firebasebackend/Friends';
 
 // add/manage/view friends
 const Friendlist = (props) => {
@@ -18,7 +18,7 @@ const Friendlist = (props) => {
     //global.friends is an array of friend objects
 
     const removeFriend = (email) => {
-        console.log(email);
+        deleteFriend(email);
     }
 
     return (
