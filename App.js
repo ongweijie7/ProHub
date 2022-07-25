@@ -15,7 +15,7 @@ const App = () => {
         nextAppState === "active"
       ) {
         console.log("App has come to the foreground!");
-      } else if (appState.current === "inactive" || appState.current === "background") {
+      } else if (nextAppState === "inactive" || nextAppState === "background") {
         freezeTimer();
       }
 

@@ -25,8 +25,6 @@ global.calendar = null //used to keep track of events
 global.updateCoins = (amount) => {
     const docref = doc(db, "Users", global.email);
     let levelledUp = false;
-    console.log(global.XP);
-    console.log(amount);
     global.XP = amount + global.XP;
     console.log(global.XP);
     let fullexp = (Math.floor(global.level / 10) + 1) * 50;

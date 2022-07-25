@@ -10,7 +10,6 @@ import CustomSwitch from '../components/CustomSwitch';
 import global from '../global';
 
 import { firebaseApp } from '../firebase.config';
-import { getAuth } from 'firebase/auth';
 import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot, setDoc, query, where } from 'firebase/firestore';
 
 //initialising database
@@ -102,7 +101,7 @@ const Todo = ({navigation}) => {
     removeFromToDoCollection(index);
     itemsCopy.splice(index, 1);
     setTaskItems(itemsCopy);
-    global.updateCoins(10);
+    global.updateCoins(2);
     setCoins(global.XP);
   }
 

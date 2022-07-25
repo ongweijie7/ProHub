@@ -22,7 +22,10 @@ const Friendlist = (props) => {
     const addFriends = () => {
         if (email === ""){
             alert("Please enter an email");
-        } else {
+        } else if (email === global.email) {
+            alert("You cannot add yrself");
+        }
+        else {
             sendReq(email);
         }
         setemail("");

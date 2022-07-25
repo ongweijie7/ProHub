@@ -75,7 +75,7 @@ export default function FocusTimer() {
       global.XP += 10;
       const a = parseInt(hours);
       const b = parseInt(minutes);
-      let xp = a*a*10 + b;
+      let xp = a*60 + b;
       alert(`GOOD JOB!! Your have earned ${xp} XP!!`)
       UpdateActivities(hours, minutes, xp);
       return { shouldRepeat: false }
