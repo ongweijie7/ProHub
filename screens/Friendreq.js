@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, TextInput, TouchableOpacity, Image, ScrollView, StyleSheet } from 'react-native';
 import { acceptReq, deleteReq } from '../Firebasebackend/Friends';
+import { refresh } from './Leaderboard';
+import { refresh2 } from './Friendlist';
 
 import { firebaseApp } from "../firebase.config";
 import { doc, getDoc } from "firebase/firestore";
@@ -32,6 +34,10 @@ const Friendreq = () => {
         const email = friends[index];
         acceptReq(email);
         del(index);
+        setTimeout(() => {
+            refresh();
+            refresh2();
+        }, 100)
     }
 
     // delete item from array when done
@@ -40,6 +46,7 @@ const Friendreq = () => {
         copy.splice(index, 1);
         setfriends(copy);
         deleteReq(friends[index]);
+        console.log(friends);
     }            
 
     return (
@@ -53,9 +60,8 @@ const Friendreq = () => {
                     style={{height: 50, width: 50, borderRadius: 25}}
                     />
                     <View style={{flexDirection: 'column', padding:10}}>
-                       <Text style={{fontSize: 16}}>{friend}</Text> 
+                       <Text style={{fontSize: 16}}>{"@" + friend.split('@')[0]}</Text> 
                        {/* Optional if want to display email address as well update array */}
-                        <Text style={{opacity: 0.5}}>@rileyreid</Text> 
                     </View>
                 </View>
                 

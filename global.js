@@ -34,7 +34,7 @@ global.updateCoins = (amount) => {
         global.XP -= fullexp;
         global.level++;
         fullexp = (Math.floor(global.level / 10) + 1) * 50;
-        let levelledUp = true;
+        levelledUp = true;
     }
     if (levelledUp) {
         refresh();

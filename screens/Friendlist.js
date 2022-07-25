@@ -1,10 +1,23 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Text, View, TextInput, TouchableOpacity, Image, ScrollView, StyleSheet } from 'react-native';
 import { deleteFriend, sendReq } from '../Firebasebackend/Friends';
+import { refresh } from './Leaderboard';
+
+import { firebaseApp } from "../firebase.config";
+import { doc, getDoc } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
+import { getTimestamp } from 'react-native-reanimated/lib/reanimated2/core';
+
+//initialising database
+const db = getFirestore(firebaseApp);
+
+let refresh2; 
 
 // add/manage/view friends
 const Friendlist = (props) => {
     const [email, setemail] = useState("");
+    const [count, setCount] = useState(0);
+    const [ranppl, setranppl] = useState([{name: 'Howard', level: 1000, activities: []},])
 
     const addFriends = () => {
         if (email === ""){
@@ -12,14 +25,38 @@ const Friendlist = (props) => {
         } else {
             sendReq(email);
         }
+        setemail("");
+    }
 
+    refresh2 = () => {
+        setCount(count + 1);
     }
 
     //global.friends is an array of friend objects
 
     const removeFriend = (email) => {
         deleteFriend(email);
+        setTimeout(() => {
+            refresh();
+            setCount(count + 1);       
+        }, 100);
     }
+
+    const docref = doc(db, "Users", global.email);
+
+    useEffect(() => {
+        let leaderboard = [{name: 'Howard', level: 1000, activities: []}];
+        getDoc(docref).then((snapshot) => {
+            if (snapshot.exists()) {
+                leaderboard = snapshot.data().friends;
+            } else {
+                console.log("no such document");
+            }
+        }).then(() => {
+            //console.log(leaderboard);
+            setranppl(leaderboard);
+        });
+      }, [count]);
 
     return (
         <View style={styles.container}>
@@ -55,7 +92,7 @@ const Friendlist = (props) => {
 
             <Text style={styles.friendContainer}>ALL FRIENDS</Text>
             <ScrollView>
-                {props.route.params.array.map((friend, index) => {
+                {ranppl.map((friend, index) => {
                   return(
                     <View key={index} style={styles.friend}>
                         <View style={{flexDirection: 'row'}}>
@@ -85,7 +122,7 @@ const Friendlist = (props) => {
         </View>
     );
 }
-
+export { refresh2 };
 export default Friendlist;
 
 const styles = StyleSheet.create({

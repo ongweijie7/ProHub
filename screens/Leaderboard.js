@@ -21,7 +21,6 @@ const ProtoBoard = ({ navigation }) => {
 
   refresh = () => {
     setCount(count + 1);
-    console.log(count);
   }
 
 //get 
@@ -48,7 +47,6 @@ const [display, setDisplay] = useState(0);
             console.log("no such document");
         }
     }).then(() => {
-        console.log(leaderboard);
         setranppl(leaderboard);
     });
   }, [global.level, count]);
@@ -70,7 +68,7 @@ const [display, setDisplay] = useState(0);
               backgroundColor: '#C3675A'}}
         >
             <Image
-                source={require('../assets/rr.jpg')}
+                source={require('../assets/user-profile.jpg')}
                 style={styles.image}
               />
               <View style={styles.oneWrapper}>
@@ -86,6 +84,7 @@ const [display, setDisplay] = useState(0);
               
           </View>
           {/* leaderboard people */}
+          { ranppl.length > 0 ?
           <ScrollView style={{marginTop: -50}}>
               {ranppl.map((friend, index) => {
                   return(
@@ -96,7 +95,17 @@ const [display, setDisplay] = useState(0);
               })
               }
           </ScrollView>
-          
+          : <Text style={{backgroundColor: '#FFF',
+          padding: 20,
+          borderRadius: 10,
+          alignSelf: 'center',
+          marginHorizontal: 20,
+          marginBottom: 16,
+          elevation: 5,
+          marginTop: -20,
+          width: 330}}>Add friends to see them on your Leaderboard!</Text>}
+
+          { ranppl.length > 0 ?
           <Dialog
             visible={modalOpen}
             footer={
@@ -115,13 +124,14 @@ const [display, setDisplay] = useState(0);
                   {/*activities.map((item, index) or {activities2[display].activity.map((item, index)...*/}
                   {ranppl[display].activities.slice(0, 5).map((item, index) => {
                       return(
-                        <Text key={index} style={{padding: 10, alignSelf: 'center'}}>{item}</Text>
+                        <Text key={index} style={{padding: 10, alignSelf: 'center'}}>{index + 1  + ". " + item}</Text>
                       )
                   })
                   }
                 </View>
             </DialogContent>
           </Dialog>
+          : <View/> }
       </View>
   )
 }
