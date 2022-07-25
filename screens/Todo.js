@@ -101,7 +101,7 @@ const Todo = ({navigation}) => {
     removeFromToDoCollection(index);
     itemsCopy.splice(index, 1);
     setTaskItems(itemsCopy);
-    global.updateCoins(2);
+    global.updateCoins(10);
     setCoins(global.XP);
   }
 

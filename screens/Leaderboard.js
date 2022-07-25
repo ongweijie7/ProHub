@@ -78,7 +78,7 @@ const [display, setDisplay] = useState(0);
               {/* User Info */}
               <Text style={{alignSelf: 'center', color: "white", fontSize: 24, fontWeight: '600'}}>{global.username}</Text>
               <View style={{flexDirection: 'row', alignSelf: 'center'}}>
-                <Text style={{color: "white", opacity: 0.5, fontSize: 14, paddingHorizontal: 5}}>{global.XP}</Text>
+                <Text style={{color: "white", opacity: 0.5, fontSize: 14, paddingHorizontal: 5}}>{global.XP} XP</Text>
                 <MaterialCommunityIcons name="star-four-points" size={14} color="white" style={{marginTop: 4, opacity: 0.5}}/>
               </View>
               

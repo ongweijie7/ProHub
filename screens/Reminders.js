@@ -63,7 +63,6 @@ const Reminders = () => {
         }
       });
       setItems(newerItems);
-      editCalendar(newerItems);
   }
 
   // Close modal 
