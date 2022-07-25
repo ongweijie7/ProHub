@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {View, TouchableOpacity, Text, StyleSheet, KeyboardAvoidingView, TextInput, Modal, Alert, StatusBar} from 'react-native';
-import {Agenda} from 'react-native-calendars';
+import { Agenda } from 'react-native-calendars';
 
 import { AntDesign } from '@expo/vector-icons';
 
@@ -8,6 +8,8 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 import Notification, {schedulePushNotification, getNext} from '../components/Notification';
 import * as Notifications from 'expo-notifications';
+
+import { editCalendar,loadCalendar } from '../components/Calendar';
 
 const timeToString = (time) => {
   const date = new Date(time);
@@ -61,6 +63,7 @@ const Reminders = () => {
         }
       });
       setItems(newerItems);
+      editCalendar(newerItems);
   }
 
   // Close modal 
@@ -115,13 +118,14 @@ const Reminders = () => {
 
       const newerItems = {};
         // Add new item in
-        if (items[fDate] !== 'undefined') {
+        if (items[fDate] !== 'undefined') { 
           newerItems[fDate] = items[fDate];          
         } else {
           newerItems[fDate] = [];
         }
-        newerItems[fDate].push(item);
+        newerItems[fDate].push(item);//pushing in the object into the date arr
 
+        //22-07-22
         // Copies over rest of items
         Object.keys(items).forEach((key) => {
           if (key !== fDate) {
@@ -130,7 +134,8 @@ const Reminders = () => {
         });
 
       // Reset Modal to blank form
-      setItems(newerItems); //
+      setItems(newerItems); 
+      // editCalendar(newerItems);
       setModalOpen(false);
       setTitle('');
       setNotes('');
@@ -146,6 +151,7 @@ const Reminders = () => {
   const loadItems = (day) => {
     setTimeout(() => {
       // Display 14 days
+      console.log(day);
       for (let i = -15; i < 15; i++) {
         const time = day.timestamp + i * 24 * 60 * 60 * 1000;
         const strTime = timeToString(time);
@@ -155,11 +161,13 @@ const Reminders = () => {
         }
       }
       // Makes copy of items to update it using setItems
-      const newItems = {};
+      const calendar = {};
       Object.keys(items).forEach((key) => {
-        newItems[key] = items[key];
+        calendar[key] = items[key];
       });
-      setItems(newItems); //line need to pass in global.item
+      // const calendar = loadCalendar();
+      // console.log(calendar);
+      setItems(calendar); //line need to pass in global.item
     }, 1000);
   };
 

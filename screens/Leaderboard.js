@@ -49,7 +49,7 @@ const [display, setDisplay] = useState(0);
     }).then(() => {
         console.log(leaderboard);
         if (leaderboard.length === 0){
-          setranppl[{name: 'JamesBot', level: 999, activities: []}];
+          setranppl[{name: 'JamesBot', level:999, activities: []}];
         } else {
           setranppl(leaderboard);
         }
