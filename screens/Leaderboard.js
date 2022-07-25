@@ -47,17 +47,12 @@ const [display, setDisplay] = useState(0);
             console.log("no such document");
         }
     }).then(() => {
-<<<<<<< HEAD
-        setranppl(leaderboard);
-=======
         console.log(leaderboard);
         if (leaderboard.length === 0){
           setranppl[{name: 'JamesBot', level: 999, activities: []}];
         } else {
           setranppl(leaderboard);
         }
-        
->>>>>>> 28d873efee90b7d6ac3e4f442c074bc2a3c02671
     });
   }, [global.level, count]);
 
