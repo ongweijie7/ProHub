@@ -122,7 +122,7 @@ const Todo = ({navigation}) => {
           <Text style={styles.sectionTitle}>Today's tasks</Text>
 
           {/*Open up buy fish pg instead*/}
-          <TouchableOpacity onPress={() => navigation.openDrawer()}>
+          <TouchableOpacity onPress={() => navigation.navigate("LeaderBoard")}>
             <View style={styles.coinButton}>
               <Text style={styles.coin}>{coins} XP </Text>
 

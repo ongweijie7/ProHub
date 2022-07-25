@@ -24,7 +24,7 @@ const ProtoBoard = ({ navigation }) => {
   }
 
 //get 
-let [ranppl, setranppl] = useState([{name: 'Howard', level: 1000, activities: []},]);
+let [ranppl, setranppl] = useState([]);
                                     
 const [modalOpen, setModalOpen] = useState(false);    
 // which friend activity to display
@@ -39,7 +39,7 @@ const [display, setDisplay] = useState(0);
   
 
   useEffect(() => {
-    let leaderboard = [{name: 'Howard', level: 1000, activities: []}];
+    let leaderboard = [];
     getDoc(docref).then((snapshot) => {
         if (snapshot.exists()) {
             leaderboard = snapshot.data().friends;
@@ -47,12 +47,7 @@ const [display, setDisplay] = useState(0);
             console.log("no such document");
         }
     }).then(() => {
-        console.log(leaderboard);
-        if (leaderboard.length === 0){
-          setranppl[{name: 'JamesBot', level:999, activities: []}];
-        } else {
           setranppl(leaderboard);
-        }
     });
   }, [global.level, count]);
 

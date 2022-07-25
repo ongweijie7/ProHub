@@ -178,7 +178,7 @@ const Login = ({navigation}) => {
 
                 <View>
                     {!signingIn 
-                    ? <TouchableOpacity style={{flexDirection: 'row', marginTop: -10}} onPress={() => setSigningIn(true)}>
+                    ? <TouchableOpacity style={{flexDirection: 'row', marginTop: -10}} onPress={() => {setSigningIn(true); setDescription("LOGIN");}}>
                         <Text>Back</Text>
                     </TouchableOpacity>
                     : <Text></Text>}
