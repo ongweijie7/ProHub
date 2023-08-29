@@ -1,12 +1,12 @@
-import React, {useState, useEffect} from 'react';
-import { Text, View, TextInput, TouchableOpacity, Image, ScrollView, StyleSheet } from 'react-native';
-import { deleteFriend, sendReq } from '../Firebasebackend/Friends';
-import { refresh } from './Leaderboard';
-
-import { firebaseApp } from "../firebase.config";
 import { doc, getDoc } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
+import React, { useEffect, useState } from 'react';
+import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { getTimestamp } from 'react-native-reanimated/lib/reanimated2/core';
+
+import { firebaseApp } from "../firebase.config";
+import { deleteFriend, sendReq } from '../Firebasebackend/Friends';
+import { refresh } from './Leaderboard';
 
 //initialising database
 const db = getFirestore(firebaseApp);
@@ -79,7 +79,7 @@ const Friendlist = (props) => {
             {/* Stack navigator to friend request screen */}
             <TouchableOpacity style={{flexDirection: 'row'}} onPress={()=> props.navigation.navigate('Friend Requests')}>
                <Image
-                source={require('../assets/lr.jpg')}
+                source={require('../assets/user-profile.jpg')}
                 style={{height:50, width:50, borderRadius: 25, marginRight: 10}}
               />
                 <View style={{flexDirection: 'column'}}>
